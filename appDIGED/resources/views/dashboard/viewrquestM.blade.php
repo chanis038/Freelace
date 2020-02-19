@@ -1,52 +1,6 @@
-@extends('commons.dashboardtemplate')
+@extends('commons.viewrequesttemplate')
 
-@section('title')
-vista
-@endsection
-
-
-@section('contentDash')
-
-<main class="container" id="dashmain" role="main">
-  
-   <div class="d-flex align-items-center p-3 my-3 text-white-50 bg-purple rounded shadow-sm">
-        <div class="lh-100">
-            <h6 class="mb-0 text-white lh-100">
-              Informacion de Solicitud
-            </h6>
-                    </div>
-    </div>
-
-     <div class="my-3 p-3 bg-white rounded shadow-sm">
-       
-        <div class="row">
-         <div class=" col-xs-6 col-ms-6 col-md-4 mb-1">
-          <h6> Creado por: {{$data[0]->p_nombre.' '.$data[0]->p_apellido}}   </h6>  
-         </div> 
-         <div class=" col-xs-6 col-ms-6 col-md-4 mb-1">
-          <h6> Tipo de Solicitud: {{$data[0]->tipo}}</h6> 
-         </div> 
-         <div class=" col-xs-6 col-ms-6 col-md-4 mb-1">
-          <h6> Fecha de Solicitud: {{$data[0]->created_at}} </h6> 
-         </div> 
-          
-        </div>
-        <div class="row">
-        <div class=" col-xs-6 col-ms-6 col-md-4 mb-1">
-         <h6> Monto solicitado (Q): {{$data[0]->monto}} </h6> 
-         </div> 
-         <div class=" col-xs-6 col-ms-6 col-md-4 mb-1">
-          <h6> Estado: {{$data[0]->estado}} </h6> 
-         </div> 
-         <div class=" col-xs-6 col-ms-6 col-md-4 mb-1">
-          <h6> Estado: {{$data[0]->estado}} </h6> 
-         </div> 
-                
-                   
-        </div>
-      
-    </div>
-     
+@section('filescontent')  
     
 <div class="my-3 p-3 bg-white rounded shadow-sm">
 
@@ -63,29 +17,8 @@ vista
 
  </div>
 
-
-<div class="my-3 p-3 bg-white rounded shadow-sm">
-        <ol class="nav ">
-        @foreach($data as $file)
-         <li class="nav-item ">
-           <a class="nav-link" href="\downloadFile\{{$file->slugA}}">
-                        {{$file->nombre}}
-                    </a>
-          </li>
-       
-      @endforeach
-      <li class="nav-item ">
-           <a class="nav-link" href="\downloadFile\{{$data[0]->slug}}\1">
-                       Descargar todo
-                    </a>
-          </li>
-       </ol>
-    </div>
-   
-
  
-  
-  </main>
+@endsection
 
 @section('scripts') 
 <style type="text/css">
@@ -101,7 +34,7 @@ vista
 
 <script type="text/javascript">
 
- var url ="{{asset('/Solicitudes/'.$data[0]->formato.'SAE_'.$data[0]->id.'.pdf')}}";
+ var url ="{{asset('/Solicitudes/'.$data[0]->ruta.'SAE_'.$data[0]->id.'.pdf')}}";
 // Loaded via <script> tag, create shortcut to access PDF.js exports.
 var pdfjsLib = window['pdfjs-dist/build/pdf'];
 
@@ -201,5 +134,3 @@ pdfjsLib.getDocument(url).promise.then(function(pdfDoc_) {
 </script>
 
 @endsection
-
-  @endsection

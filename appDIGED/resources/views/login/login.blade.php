@@ -3,7 +3,7 @@
 @section ('title', 'Login')
 
 @section ('customs')
-<link href="Plugins/css/login.css" rel="stylesheet">
+<link href="Plugins/css/login.css" rel="stylesheet"></link>
     @endsection
 
 @section('content')
@@ -53,10 +53,6 @@
                 <input class="fadeIn fourth" type="submit" value="Ingresar">
                 </input>
             </form>
-            <!-- <div id="formFooter">
-     <!--  <a class="underlineHover" href="#">Go to the Site</a>Remind Passowrd 
-    </div>-->
         </div>
     </div>
     @endsection
-</link>

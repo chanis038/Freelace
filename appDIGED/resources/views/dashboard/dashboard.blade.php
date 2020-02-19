@@ -31,46 +31,15 @@ active
           <div class="media-body pb-3 mb-0 small lh-125 border-bottom border-gray">
             <div class="d-flex justify-content-between align-items-center w-100">
               <strong class="text-gray-dark">
-              	         @switch($request->tipo)
-                        	 @case("PM")
-                        		Pago de Maestría
-                        		 @break
-                        	 @case ('PD')
-                        		Pago de Doctorado
-                        		 @break
-                        	 @case ('PB')
-                        	  	Pago de Boleto Aéreo
-                        		 @break
-                        	 @case ('PV')
-                        		Pago de Viáticos
-                        		 @break                       	
-                        	 @default
-                        		Pago de Boleto Aéreo y Viáticos
-                        		@break
-                        
-                        @endswitch
+              	      @include("validates/tiposolicitud")
 
               </strong>
               <a href="/viewRequest/{{$request->slug}}">Ver Solicitud</a>
             </div>
             <span class="d-block">Fecha de Creacion: {{ $request->created_at}}</span>
-            <span class="d-block">Estado: @switch($request->estado)
-                        	@case ('E')
-                        		Enviado a Revision
-                        		@break
-                        	@case ('A')
-                        		Revision Aprobada
-                        		
-                        		@break
-                        	@case ('AT')
-                        	    Autorizado
-
-                        		@break
-                        	                        	
-                        	@default
-                        		Listo en Tesoreria
-                        		@break
-                        @endswitch</span>
+            <span class="d-block">Estado:
+                       @include("validates/estadosolicitud")
+                      </span>
                      </div>
                  </div>
 
@@ -78,6 +47,6 @@ active
 
              
       </div>
-     
+
  </main>
 @endsection

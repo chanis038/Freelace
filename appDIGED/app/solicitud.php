@@ -9,11 +9,15 @@ use Illuminate\Support\Facades\DB;
 class solicitud extends Model
 {
     //valores por defecto al crear una solicitud
+    
+
+        
     protected $attributes  = [
         
-        'estado' => "E",
+        'estado' => "EN",
         'visto' => 0,
         'visto_user' => 0,
+        'observacion'=> null,
     ];
         
     // funciones para manejar el modelo relacional
@@ -24,15 +28,41 @@ class solicitud extends Model
     public function archivo(){
        return  $this->hasMany('App\archivo','idsolicitud','id');
     }
+    
+    // devuelve el objeto modelo de la solcitud con el slug ingresado.
+    public static function findSlug($slug){
+        $mSolicitud = solicitud::where('slug',$slug)
+                    ->first();
+                
+         return $mSolicitud;
+    }
 
 
     // QUERYS .. PARA OBTENER INFORMACION 
+   public static function getOwnerUser($slug){
+        $correo = DB::table('solicituds')
+                ->join('users', 'users.registro', '=', 'solicituds.registroUser')
+                ->where('solicituds.slug',$slug)
+                ->select('users.correo','users.p_nombre','users.p_apellido')
+                ->get();
+         return $correo;
+    }
+
+       public static function getRequestUser($slug){
+        $data = DB::table('solicituds')
+                ->join('users', 'users.registro', '=', 'solicituds.registroUser')
+                ->where('solicituds.slug',$slug)
+                ->select('users.p_nombre','users.p_apellido','users.s_nombre','users.s_apellido','users.dpi','users.registro','users.unidad_academica','solicituds.id','solicituds.monto','solicituds.monto_letras','solicituds.justificacion','solicituds.slug')
+                ->get();
+        return $data;
+    }
+
 	public static function getInfSolicitud($slug){
 		$data = DB::table('solicituds')
 	            ->join('users', 'users.registro', '=', 'solicituds.registroUser')
 	            ->join('archivos', 'archivos.idsolicitud', '=', 'solicituds.id')
 	            ->where('solicituds.slug',$slug)
-	            ->select('users.p_nombre','users.p_apellido','users.registro','solicituds.slug','solicituds.id','solicituds.tipo','solicituds.estado','solicituds.created_at','solicituds.monto','archivos.nombre', 'archivos.formato',DB::raw('archivos.slug slugA ,archivos.tipo as tipoA'))
+	            ->select('users.p_nombre','users.p_apellido','users.unidad_academica', 'users.catedras','solicituds.slug','solicituds.id','solicituds.tipo','solicituds.estado','solicituds.monto','archivos.nombre', 'archivos.ruta',DB::raw('archivos.slug slugA ,archivos.tipo as tipoA, DATE(solicituds.created_at) as created_at'))
 	            ->get();
 
 	     return $data;
@@ -50,7 +80,7 @@ class solicitud extends Model
     	}
     	elseif(auth()->user()->perfil == 'R'){
     		$data = solicitud::select('id','tipo','estado','slug','visto','created_at')
-    		->whereIn('estado',['E','A','AT'])
+    		->whereIn('estado',['EN','AP','AT','AA'])
         	->orderBy('created_at', 'desc')
         	->limit(10)
         	->get();
@@ -58,18 +88,24 @@ class solicitud extends Model
     	}
     	elseif(auth()->user()->perfil == 'D'){
     		$data = solicitud::select('id','tipo','estado','slug','visto','created_at')
-    		->whereIn('estado',['A'])
+    		->whereIn('estado',['AP'])
         	->orderBy('created_at', 'desc')
         	->limit(10)
         	->get();
     	}
     	elseif(auth()->user()->perfil == 'T'){
     		$data = solicitud::select('id','tipo','estado','slug','visto','created_at')
-    		->whereIn('estado',['AT'])
+    		->whereIn('estado',['ET','LT'])
         	->orderBy('created_at', 'desc')
         	->limit(10)
         	->get();
     	}
+        elseif(auth()->user()->perfil == 'K'){
+            $data = solicitud::select('id','tipo','estado','slug','visto','created_at')
+            ->orderBy('created_at', 'desc')
+            ->limit(10)
+            ->get();
+        }
 
     	return $data;
 	}

@@ -1,8 +1,4 @@
-@extends('commons.dashboardtemplate')
-
-@section('title')
-vista
-@endsection
+@extends('commons.viewrequesttemplate')
 
 <script type="">
 
@@ -17,43 +13,7 @@ if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(naviga
 </script>
 
 
-@section('contentDash')
-
-<main class="container" id="dashmain" role="main">
-  
-	 <div class="d-flex align-items-center p-3 my-3 text-white-50 bg-purple rounded shadow-sm">
-        <div class="lh-100">
-            <h6 class="mb-0 text-white lh-100">
-              Informacion de Solicitud
-            </h6>
-                    </div>
-    </div>
-
-     <div class="my-3 p-3 bg-white rounded shadow-sm">
-       
-        <div class="row">
-         <div class=" col-xs-6 col-ms-6 col-md-4 mb-1">
-         	<h6> Creado por: {{$data[0]->p_nombre.' '.$data[0]->p_apellido}}   </h6>	
-         </div>	
-         <div class=" col-xs-6 col-ms-6 col-md-4 mb-1">
-         	<h6> Tipo de Solicitud: {{$data[0]->tipo}}</h6>	
-         </div>	
-         <div class=" col-xs-6 col-ms-6 col-md-4 mb-1">
-         	<h6> Fecha de Solicitud: {{$data[0]->created_at}} </h6>	
-         </div>	
-          
-        </div>
-        <div class="row">
-        <div class=" col-xs-6 col-ms-6 col-md-4 mb-1">
-         <h6> Monto solicitado (Q): {{$data[0]->monto}} </h6>	
-         </div>	
-         <div class=" col-xs-6 col-ms-6 col-md-4 mb-1">
-         	<h6> Estado: {{$data[0]->estado}} </h6>	
-         </div>	
-                   
-        </div>
-      
-    </div>
+@section('filescontent')
 
  	<div class="my-3 p-3 bg-white rounded shadow-sm">
     <div id="carousel" class="carousel slide carousel-fade" data-ride="carousel"  data-interval="false">
@@ -68,14 +28,14 @@ if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(naviga
     <div class="embed-responsive embed-responsive-16by9 bg-dark" >
      
       @if ($file->tipoA ==".pdf")
-  	<object data="{{'/Solicitudes/'.$file->formato.$file->nombre.$file->tipoA}}" type="application/pdf">
-        <embed src="{{'/Solicitudes/'.$file->formato.$file->nombre.$file->tipoA}}"
+  	<object data="{{'/Solicitudes/'.$file->ruta.$file->nombre.$file->tipoA}}" type="application/pdf">
+        <embed src="{{'/Solicitudes/'.$file->ruta.$file->nombre.$file->tipoA}}"
           />
     </object>
     @else
        
-      <object data="{{'/Solicitudes/'.$file->formato.$file->nombre.$file->tipoA}}" type="application/image">
-        <embed class="img-fluid" max-width="100%" height="auto" src="{{'/Solicitudes/'.$file->formato.$file->nombre.$file->tipoA}}"
+      <object data="{{'/Solicitudes/'.$file->ruta.$file->nombre.$file->tipoA}}" type="application/image">
+        <embed class="img-fluid" max-width="100%" height="auto" src="{{'/Solicitudes/'.$file->ruta.$file->nombre.$file->tipoA}}"
           />
     </object>
          
@@ -98,28 +58,12 @@ if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(naviga
   </a>
 
 </div>
-
-<div class="my-3 p-3 bg-white rounded shadow-sm">
-        <ol class="nav ">
-        @foreach($data as $file)
-         <li class="nav-item ">
-           <a class="nav-link" href="\downloadFile\{{$file->slugA}}">
-                        {{$file->nombre}}
-                    </a>
-          </li>
-       
-    	@endforeach
-    	<li class="nav-item ">
-           <a class="nav-link" href="\downloadFile\{{$data[0]->slug}}\1">
-                       Descargar todo
-                    </a>
-          </li>
-    	 </ol>
-		</div>
 </div>
- 
-  
-	</main>
 
+@endsection
 
-	@endsection
+@section('link')
+    <a class="list-group-item-warning " href="/viewRequestM/{{$data[0]->slug}}">
+                       Clic aqui,si no puede ver los archivos.!!
+                    </a>
+@endsection

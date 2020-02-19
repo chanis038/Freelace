@@ -16,27 +16,28 @@ class validaciones
     {
         $cotroller = new Controller(); 
         return  $cotroller->validate($request, [
-            'p_nombre'         => 'required|string',
-            's_nombre'         => 'nullable|string',
-            'p_apellido'       => 'required|string',
-            's_apellido'       => 'nullable|string',
-            'nacionalidad'     => 'required|string',
-            'dpi'              => 'required|numeric',
-            'municipio'        => 'required|string',
-            'edad'             => 'required|numeric',
-            'estdo_civil'      => 'required|string',
-            'profesion'        => 'required|string',
-            'direccion'        => 'required|string',
-            'correo'           => 'required|email',
-            'nit'              => 'nullable|numeric',
-            'n_telefono'       => 'nullable|numeric',
-            'n_celular'        => 'nullable|numeric',
-            //'registro'         => 'required|string',
-            'unidad_academica' => 'required|string',
-            'n_carne'          => 'required|numeric',
-            'departamento'     => 'required|string',
-            'cargo'            => 'required|string',
-            'titularidad'      => 'required|string',
+           'p_nombre'         =>'required|string',
+           's_nombre'         =>'nullable|string',
+           'p_apellido'       =>'required|string',
+           's_apellido'       =>'nullable|string',
+           'nacionalidad'     =>'required|string',
+           'dpi'              =>'required|numeric',
+           'municipio'        =>'required|string',
+           'edad'             =>'required|numeric',
+           'estdo_civil'      =>'required|string',
+           'profesion'        =>'required|string',
+           'direccion'        =>'required|string',
+           'correo'           =>'required|email',
+           'nit'              =>'nullable|numeric',
+           'n_telefono'       =>'nullable|numeric',
+           'n_celular'        =>'nullable|numeric',
+            //'registro'         =>'required|string',
+           'unidad_academica' =>'required|string',
+           'n_carne'          =>'required|numeric',
+           'departamento'     =>'required|string',
+           'cargo'            =>'required|string',
+           'titularidad'      =>'required|string',
+           'catedras'         => 'required|string',
 
         ]);
     }
@@ -46,11 +47,11 @@ class validaciones
     {
         $cotroller = new Controller(); 
         return  $cotroller->validate($request, [
-            'justificacion'     => 'nullable|string',
-            'monto_letras'      => 'required|string',
-            'monto'             => 'required|numeric',
-            'tipo'              => 'required|string',
-            'slug'              => 'required|string'
+           'justificacion'     =>'nullable|string',
+           'monto_letras'      =>'required|string',
+           'monto'             =>'required|numeric',
+           'tipo'              =>'required|string',
+           'slug'              =>'required|string'
             
         ]);
     }
@@ -67,10 +68,10 @@ class validaciones
             $slug= Str::random(20);
 
             switch ($table) {
-            case 'file':
+            case'file':
                   $response= archivo::where('slug',$slug)->count();
                  break;
-            case 'request':
+            case'request':
                 # code...
                $response= solicitud::where('slug',$slug)->count();
                 
@@ -91,6 +92,69 @@ class validaciones
         }        
        
         return $slug;
+    }
+
+    public static function informantioncomplete(){
+        $resultado="";
+
+        if(auth()->user()->p_nombre ==""){
+            $resultado=' nombre,' ;
+        }       
+        if(auth()->user()->p_apellido ==""){
+            $resultado= $resultado.' apellido,' ;
+        }                  
+        if(auth()->user()->nacionalidad ==""){
+            $resultado= $resultado.' nacionalidad,' ;
+        }            
+        if(auth()->user()->dpi ==""){
+            $resultado= $resultado.' dpi,' ;
+        }                    
+        if(auth()->user()->municipio ==""){
+            $resultado= $resultado.' municipio,' ;
+        }               
+        if(auth()->user()->edad ==""){
+            $resultado= $resultado.' edad,' ;
+        }                   
+        if(auth()->user()->estdo_civil ==""){
+            $resultado= $resultado.' estdo civil,' ;
+        }             
+        if(auth()->user()->profesion ==""){
+            $resultado= $resultado.' prefesión,' ;
+        }               
+        if(auth()->user()->direccion ==""){
+            $resultado= $resultado.' dirección,' ;
+        }               
+        if(auth()->user()->correo ==""){
+            $resultado= $resultado.' correo electronico,' ;
+        }                  
+        /*if(auth()->user()->nit ==""){
+            $resultado= $resultado.'Nombre,' ;
+        }*/                     
+        if(auth()->user()->n_telefono =="" && auth()->user()->n_celular ==""){
+            $resultado= $resultado.' tiene que llenar el campo telefono o celular,' ;
+        }              
+                              
+        if(auth()->user()->unidad_academica ==""){
+            $resultado= $resultado.' unidad academica,' ;
+        }        
+        if(auth()->user()->n_carne ==""){
+            $resultado= $resultado.' carné,' ;
+        }                
+        if(auth()->user()->departamento ==""){
+            $resultado= $resultado.' departamento en que labora,' ;
+        }            
+        if(auth()->user()->cargo ==""){
+            $resultado= $resultado.' cargo que ocupa,';
+        }                   
+        if(auth()->user()->titularidad ==""){
+            $resultado= $resultado.' titularidad,' ;
+        }             
+        if(auth()->user()->catedras ==""){
+            $resultado= $resultado.' catedras que imparte';
+        }  
+
+        return $resultado;      
+
     }
      
 }

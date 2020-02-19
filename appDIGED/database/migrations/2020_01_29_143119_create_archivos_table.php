@@ -17,7 +17,7 @@ class CreateArchivosTable extends Migration
             
             $table->bigIncrements('id');
             $table->string('nombre')->nullable();
-            $table->string('formato')->nullable();
+            $table->string('ruta')->nullable();
             $table->string('tipo')->nullable();
             $table->string('slug')->nullable()->unique();
             $table->string('idsolicitud');

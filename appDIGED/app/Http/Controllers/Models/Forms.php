@@ -257,9 +257,37 @@ class Forms{
          $fpdf= new Fpdf();
          $fpdf->AddPage();
          $fpdf->SetMargins(22,5,20);
-         $fpdf->Image( $pathOg,20,20,150,100,'jpeg');
+         $fpdf->Image( $pathOg,20,30,150,100,'jpeg');
          $fpdf->Ln(1);
          $fpdf->Output('F',$pathDs); 
+
+   }
+
+     public static function FileDeal($request,$data){
+
+         
+         $pathDs= public_path().'/Solicitudes/'.$data[0]->registro.'/'.$data[0]->slug.'/ACUERDO_'.$data[0]->id.'.pdf';
+         $fpdf2= new Fpdf();
+         $fpdf2->AddPage();
+         $fpdf2->SetMargins(35,5,25);
+         $fpdf2->Ln(25);
+         $fpdf2->SetFont('Arial','B', 12);
+         $fpdf2->Cell(0,5, utf8_decode($request->header1),0,2,'C',false);
+         $fpdf2->Cell(0,5, utf8_decode($request->header2),0,2,'C',false);
+         $fpdf2->Ln(15);
+         $fpdf2->SetFont('Arial','', 12);
+         $fpdf2->MultiCell(0,6, utf8_decode($request->body),0,'J',false);
+         $fpdf2->Ln(5);
+         
+         $fpdf2->Cell(0,5, utf8_decode('Atentamente,'),0,2,'C',false);
+         $fpdf2->Ln(5);
+         $fpdf2->SetFont('Arial','B', 12);
+         $fpdf2->Cell(0,5, utf8_decode('"ID Y ENSEÑAD A TODOS"'),0,2,'C',false);
+         $fpdf2->Ln(20);
+
+         $fpdf2->Cell(0,5,utf8_decode($request->footer),0,2,'C',false);
+         $fpdf2->Cell(0,5,utf8_decode('Director General de Docencia'),0,2,'C',false);
+         $fpdf2->Output('F',$pathDs); 
 
    }
 

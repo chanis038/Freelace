@@ -31,7 +31,6 @@ class User extends Authenticatable
         'municipio',
         'n_telefono',
         'n_celular',
-        'registro',
         'unidad_academica',
         'n_carne',
         'departamento',
@@ -39,32 +38,33 @@ class User extends Authenticatable
         'slug',
         'password',
         'perfil',
+        'catedras',
     ];
 
     //valores por defecto al crear un usuario 
 protected $attributes  = [
-        'p_nombre' => "none",
-        's_nombre' => "none",
-        'p_apellido' => "none",
-        's_apellido'=> "none",
-        'edad'=> "none",
-        'estdo_civil'=> "none",
-        'nacionalidad'=> "none",
-        'profesion'=> "none",
-        'direccion'=> "none",
-        'nit'=> "",
-        'correo'=> "correo@none.com",
-        'dpi'=> "",
-        'municipio' => "Gutemala",
-        'n_telefono' => "",
-        'n_celular' => "none",
-        'registro',
-        'unidad_academica' => "none",
-        'n_carne'=> "",
-        'departamento' => "none",
-        'cargo'=> "none",
-        'password'=> "",
+        'p_nombre' => "Usuario",
+        's_nombre' => null,
+        'p_apellido' => null,
+        's_apellido'=> null,
+        'edad'=> null,
+        'estdo_civil'=> null,
+        'nacionalidad'=> null,
+        'profesion'=> null,
+        'direccion'=>   null,
+        'nit'=> null,
+        'correo'=> null,
+        'dpi'=> null,
+        'municipio' => "Guatemala",
+        'n_telefono' => null,
+        'n_celular' => null,
+        'unidad_academica' => null,
+        'n_carne'=> null,
+        'departamento' => null,
+        'cargo'=> null,
+        'password'=> null,
         'perfil'=> "U",
+        'catedras'=>null,
     ];
     /**
      * The attributes that should be hidden for arrays.
@@ -76,17 +76,22 @@ protected $attributes  = [
 
     ];
 
-    /**
-     * The attributes that should be cast to native types.
-     *
-     * @var array
-     */
-    protected $casts = [
-        'email_verified_at' => 'datetime',
-    ];
-
+    
+   
     //funcion para manejar el modelo relacional
     public function solicitud(){
        return  $this->hasMany('App\solicitud','registrouser','registro');
+    }
+
+    public static function getRevisores(){
+        return  User::where('perfil','R')
+                    ->select('correo')
+                     ->get();
+    }
+
+    public static function getTesoreros(){
+        return  User::where('perfil','T')
+                    ->select('correo')
+                     ->get();
     }
 }

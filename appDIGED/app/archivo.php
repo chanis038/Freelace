@@ -18,7 +18,7 @@ class archivo extends Model
     
     public static function findSlug($slug){
 
-    	$archivo = archivo::select('nombre','tipo','formato')
+    	$archivo = archivo::select('nombre','tipo','ruta')
     						->where('slug',$slug)
     						->first();
     		return $archivo;
@@ -32,7 +32,7 @@ class archivo extends Model
     	$archivos = DB::table('archivos')
 	            ->join('solicituds', 'archivos.idsolicitud', '=', 'solicituds.id')
 	            ->where('solicituds.slug',$slug)
-	            ->select('solicituds.id','solicituds.estado','archivos.nombre', 'archivos.formato','archivos.tipo')
+	            ->select('solicituds.id','solicituds.estado','archivos.nombre', 'archivos.ruta','archivos.tipo')
 	            ->get();
 
     		return $archivos;

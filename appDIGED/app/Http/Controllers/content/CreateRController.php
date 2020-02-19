@@ -10,6 +10,8 @@ use App\solicitud;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use App\Http\Controllers\content\fileController;
+use App\Http\Controllers\Mail\mailController;
 
 
 class CreateRController extends Controller
@@ -25,8 +27,18 @@ class CreateRController extends Controller
     // funcion que envia la vista de crear solicitud
     public function createR()
     {
-        $slug = validaciones::newSlug('request');
+        $resultado  = validaciones::informantioncomplete();
+        if($resultado==""){
+            $slug = validaciones::newSlug('request');
         return view('dashboard/createRequest',compact('slug'));
+        }
+        else{
+
+        return redirect()->route('personalinf')->with(['response'=>'2','txt'=>$resultado]); 
+        }
+        
+        
+        
     }
 
     //funcion que envia  la vista de ver solicitud
@@ -34,7 +46,7 @@ class CreateRController extends Controller
      
             $data = solicitud::getInfSolicitud($slug);
             //return $data;
-            return view('dashboard/viewrquest',compact('data'));
+           return view('dashboard/viewrquest',compact('data'));
 
     }
 
@@ -42,6 +54,7 @@ class CreateRController extends Controller
       public function viewRequestM($slug){
      
             $data = solicitud::getInfSolicitud($slug);
+                    fileController::creaArchivoUnificado($slug);
             //return $data;
             return view('dashboard/viewrquestM',compact('data'));
 
@@ -81,15 +94,19 @@ class CreateRController extends Controller
                 $newfile = new archivo;
                 $newfile->nombre=substr($file,0,strrpos($file,'.'));
                 $newfile->tipo=substr($file,strrpos($file,'.')-strlen($file));
-                $newfile->formato= auth()->user()->registro."/". $request->slug.'/';
+                $newfile->ruta= auth()->user()->registro."/". $request->slug.'/';
                 $newfile->slug= validaciones::newSlug('file');
                 $newrequest->archivo()->save($newfile); 
             } 
-        }
-        closedir($handler);
+
         }
 
-//
+        closedir($handler);
+
+        }
+
+        mailController::sendMail($newrequest,1);
+//       
         $result = "succes";
         }
 
@@ -102,6 +119,67 @@ class CreateRController extends Controller
         return redirect()->route('dashboard')->with(['result'=>$result]);
     }
 
+    public function changeState(Request $request){
+         $change="";
+         $sendmail= true;
+         $tipe=1;
+         $response=0;
+         $result="";
+
+         switch ($request->estado) {
+             case 'EN':
+                    $change="AP";
+                    $tipe=2;
+
+                 break;
+            case 'AP':
+                     $change="AT";
+                     $tipe=3;
+                 break;
+            case 'NA':
+                     $change="NA";
+                     $tipe=4;
+                 break;
+            case 'AT':
+                    $change="AA";
+                    $sendmail =false;
+                 break;
+            case 'AA':
+                    $change="ET"; 
+                    $tipe=5;   
+                 break;
+            case 'ET':
+                    $change="LT";
+                    $tipe=6;
+                 break;
+            case 'LT':
+                    $change="EG";
+                    $sendmail =false;
+                 break;
+   
+             default:
+                 $change="EG";
+                  $sendmail =false;
+                 break;
+         }
+         try{
+         $Mrequest= Solicitud::findSlug($request->slug);
+         $Mrequest->estado=$change;
+         $Mrequest->save();
+
+         if($sendmail){
+            mailController::sendMail($Mrequest,$tipe);
+         }
+          $response=1; 
+          $result=" Solicitud Actulizada Correctametne"; 
+         }
+         catch(Exception $e) {
+
+         }
+
+        return back()->with(['response'=>$response,'result'=>$result]);
+
+    }
     
 }
 

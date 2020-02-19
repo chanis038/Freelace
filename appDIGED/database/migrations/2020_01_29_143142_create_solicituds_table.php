@@ -19,13 +19,14 @@ class CreateSolicitudsTable extends Migration
             $table->enum('tipo',["PM","PD","PB","PV","PBV"])->nullable();
             $table->string('estado')->nullable();
             $table->text('justificacion')->nullable();
-            $table->float('monto',10,2)->nullable();
+            $table->decimal('monto',10,2)->nullable();
             $table->string('monto_letras')->nullable();
             $table->date('fecha_viaje')->nullable();
             $table->string('slug')->nullable()->unique();
             $table->string('registroUser');
             $table->boolean('visto');
             $table->boolean('visto_user');
+            $table->text('observacion')->nullable();
             $table->timestamps();
             
             //$table->foreign('registroUser')

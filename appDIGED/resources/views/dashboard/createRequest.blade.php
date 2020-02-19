@@ -57,7 +57,7 @@ active
                </div>
            
         </div>
-       <div class="row">.
+       <div class="row">
       
                <div class=" col-xs-6 col-ms-6 col-md-8 mb-3">
                 <label for="justificacion">Justificaion de la Ayuda</label>
@@ -66,20 +66,16 @@ active
                </div>
         </div>   
 
-           <hr class="mb-4">
-            <button class="btn btn-primary btn-lg btn-block" type="submit" disabled="true" id= "sentrequest" name="sentrequest">Enviar Solicitud</button>
 
   </div>
-            </form>
+
 
       <div class="my-3 p-3 bg-white rounded shadow-sm">
         <h6 class="border-bottom border-gray pb-2 mb-0">
         Archivos Requeridos Para la Solicitud </h6>
        
-
-         <div class="row">
-               <div class=" col-xs-6 col-ms-6 col-md-8 mb-3">
-               <form class="dropzone"  id="mydropzone"  name='mydropzone'>
+               <div class=" col-xs-6 col-ms-6 col-md-8 mb-1 mt-2">
+               <div class="dropzone"  id="mydropzone"  name='mydropzone'>
                  {{csrf_field()}}
                  <div class="dz-message">
                   <h6>
@@ -93,19 +89,21 @@ active
                  <div>
                 <input type="hidden" name="slug" value="{{$slug}}">
                 </div>
-                 </form>
+                </div>
                  </div>
-                <div class=" col-xs-6 col-ms-6 col-md-8 mb-3">
-                  <span class="note">
+                <div class=" col-xs-6 col-ms-6 col-md-8 mb-1">
+                  <span class="text-sm-left">
                     Los archivos requeridos son:<br>
-                     1. Fotocopia de DPI<br>
+                     1. Fotocopia de DPI (ambos lados)<br>
                      2. Fotocopia de ultimo voucher de pago <br>
                      3. carta de invitacion al evento ó trifoliar informativo de maestria o doctorado.
-
                    </span>
             </div>
-          </div>
-      </div>    
+            </div> 
+
+         <hr class="mb-4">
+            <button class="btn btn-primary btn-lg btn-block" type="submit"  id= "sentrequest" name="sentrequest" disabled="true" >Enviar Solicitud</button>
+    </form>   
       
     </main>
 
@@ -122,18 +120,27 @@ active
           url: "loadFiles",
           paramName: "file",           
           method: 'post',
-          timeout: 360000,
           acceptedFiles: '.jpg,.pdf',
           uploadMultiple: true,
           addRemoveLinks: true,
+          timeout: 360000,
           dictRemoveFile:'Quitar Archivo' ,
           dictInvalidFileType: 'Tipo de Archivo no permitido, solo se permiten extensiones JPG y PDF',
           
           init: function(){
 
-            var mydrop = this;
+            var mydrop = this , sendrequest= document.getElementById('sentrequest');
+           this.on('sending', function(file, xhr, formData){
+            formData.append('_token', $('[name="_token"]').val());
+            
+             formData.append('slug', $('[name="slug"]').val());
+             });
 
-                     
+            
+            this.on('success', function(file, xhr, formData){
+                sentrequest.disabled = false; 
+             });
+       
           },
 
 

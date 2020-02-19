@@ -28,7 +28,7 @@ class CreateUsersTable extends Migration
             $table->string('direccion')->nullable();
             $table->bigInteger('nit')->nullable();
             $table->string('correo')->nullable();
-            $table->bigInteger('dpi')->nullable();
+            $table->bigInteger('dpi')->nullable()->unique();
             $table->string('municipio')->nullable();
             $table->bigInteger('n_telefono')->nullable();
             $table->bigInteger('n_celular')->nullable();
@@ -36,15 +36,16 @@ class CreateUsersTable extends Migration
             //datos Docencia
             $table->integer('registro')->unique();
             $table->string('unidad_academica')->nullable();
-            $table->bigInteger('n_carne')->nullable();
+            $table->bigInteger('n_carne')->nullable()->unique();
             $table->string('departamento')->nullable();
             $table->string('cargo')->nullable();
             $table->string('titularidad')->nullable();
+            $table->string('catedras')->nullable();
 
 
             $table->string('slug')->nullable()->unique();
             $table->string('password')->nullable();
-            $table->enum('perfil',['D','R','T','U'])->nullable();
+            $table->enum('perfil',['D','K','R','T','U'])->nullable();
             $table->timestamps();
 
             $table->primary('registro');

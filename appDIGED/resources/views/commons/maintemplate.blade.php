@@ -7,8 +7,8 @@
         <meta charset="utf-8">
             <meta content="width=device-width, initial-scale=1, shrink-to-fit=no" name="viewport">
                 <link href="{{asset('Plugins/bootstrap/css/bootstrap.min.css')}}" rel="stylesheet">
-                    @yield('customs')
                 </link>
+                 @yield('customs')
             </meta>
         </meta>
     </head>
