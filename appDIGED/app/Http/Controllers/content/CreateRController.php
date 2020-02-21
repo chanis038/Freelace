@@ -23,25 +23,7 @@ class CreateRController extends Controller
         $this->middleware('auth');
     }
 
-   
-    // funcion que envia la vista de crear solicitud
-    public function createR()
-    {
-        $resultado  = validaciones::informantioncomplete();
-        if($resultado==""){
-            $slug = validaciones::newSlug('request');
-        return view('dashboard/createRequest',compact('slug'));
-        }
-        else{
-
-        return redirect()->route('personalinf')->with(['response'=>'2','txt'=>$resultado]); 
-        }
-        
-        
-        
-    }
-
-    //funcion que envia  la vista de ver solicitud
+  //funcion que envia  la vista de ver solicitud
     public function viewRequest($slug){
      
             $data = solicitud::getInfSolicitud($slug);
@@ -59,9 +41,33 @@ class CreateRController extends Controller
             return view('dashboard/viewrquestM',compact('data'));
 
         }
+   
+    // funcion que envia la vista de crear solicitud
+    public function viewCreateRequest()
+    {
+        $resultado  = validaciones::informantioncomplete();
+        if($resultado==""){
+            $slug = validaciones::newSlug('request');
+        return view('dashboard/createRequest',compact('slug'));
+        }
+        else{
+
+        return redirect()->route('personalinf')->with(['response'=>'2','txt'=>$resultado]); 
+        }
+        
+                
+    }
+
+    //funcion para la vista de modificaion 
+    public function viewModifyRequest($slug){
+
+        $datarequest  = solicitud::getFilesRquest($slug);
+        //return $solicitud;
+        return view('dashboard/modifyRequest',compact('datarequest'));
+    }
 
 
-    //funcion que envia  la vista de ver solicitud
+    //funcion para guardar la solicitud creada
     public function saveRequest(Request $request)
     {
         validaciones::validatesRequest($request);
@@ -83,8 +89,8 @@ class CreateRController extends Controller
         
         //crea los archivos de formularios para la solicitud
         $forms = new Forms();
-        $forms->createForm1($request,$dir.'01_FormAEUSAC.pdf');
-        $forms->createForm2($request,$dir.'02_FormAEUSAC.pdf');
+        $forms->createForm1($request,$dir.'-01_FormAEUSAC.pdf');
+        $forms->createForm2($request,$dir.'-02_FormAEUSAC.pdf');
        
 
          if ($handler = opendir($dir)) {
@@ -106,7 +112,7 @@ class CreateRController extends Controller
         }
 
         mailController::sendMail($newrequest,1);
-//       
+        //       
         $result = "succes";
         }
 
@@ -119,6 +125,77 @@ class CreateRController extends Controller
         return redirect()->route('dashboard')->with(['result'=>$result]);
     }
 
+
+    //funcion que envia  la vista de ver solicitud
+    public function modifyRequest(Request $request)
+    {
+    validaciones::validatesRequest($request);
+
+    $result;
+
+    try{
+        $dir = public_path().'/Solicitudes/'.auth()->user()->registro."/". $request->slug.'/';
+        $dirDisk= auth()->user()->registro."/". $request->slug.'/';
+        //obtiene la solicitud y coloca los nuevos valore
+        $updaerequest = solicitud::findSlug($request->slug);
+        $updaerequest->tipo = $request->tipo;
+        $updaerequest->monto = $request->monto;
+        $updaerequest->monto_letras = $request->monto_letras;
+        $updaerequest->justificacion = $request->justificacion;
+        $updaerequest->save();
+     
+        //crea los archivos de formularios para la solicitud
+        $forms = new Forms();
+        $forms->createForm1($request,$dir.'-01_FormAEUSAC.pdf');
+        $forms->createForm2($request,$dir.'-02_FormAEUSAC.pdf');
+        //se elimina el archivo unificado si existe. para luego mandarlo a rehacer
+        fileController::deleFileDisk($dirDisk.'SAE_'.$updaerequest->id.'.pdf');
+            
+         if ($handler = opendir($dir)) {
+            while (false !== ($file = readdir($handler))) {
+                if(!($file== '.' || $file=='..')){
+                    $nombre =substr($file,0,strrpos($file,'.'));
+
+                        //se varifica y ya existia el archivo en la BD
+                    $exist= archivo::fileExist($updaerequest->id,$nombre);
+                    if($exist==0){
+
+                    //crea y inserta un nuevp archivo   
+                        $newfile = new archivo;
+                        $newfile->nombre= $nombre;
+                        $newfile->tipo=substr($file,strrpos($file,'.')-strlen($file));
+                        $newfile->ruta= auth()->user()->registro."/". $request->slug.'/';
+                        $newfile->slug= validaciones::newSlug('file');
+                        $updaerequest->archivo()->save($newfile); 
+                        $changefile=true;
+                    }
+               
+                } 
+
+            }
+            closedir($handler);
+        }
+
+            //se crea eñ archivo unificado con los cambios
+            fileController::creaArchivoUnificado($request->slug,true);
+            //envia correo de Modidificaion 
+           // mailController::sendMail($updaerequest,7);
+            
+        $result = "succes";
+    }
+
+    catch (exception $e){
+
+        $result = $e;
+
+    }
+ 
+        return redirect()->route('dashboard')->with(['result'=>$result]);
+}
+
+
+
+    //funcion para el cambio de estado
     public function changeState(Request $request){
          $change="";
          $sendmail= true;
@@ -163,10 +240,12 @@ class CreateRController extends Controller
                  break;
          }
          try{
+            // se acutiliza el estado de la solicitud
          $Mrequest= Solicitud::findSlug($request->slug);
          $Mrequest->estado=$change;
          $Mrequest->save();
 
+         //se verifica si hay que enviar eamil
          if($sendmail){
             mailController::sendMail($Mrequest,$tipe);
          }
@@ -174,11 +253,21 @@ class CreateRController extends Controller
           $result=" Solicitud Actulizada Correctametne"; 
          }
          catch(Exception $e) {
-
+             $result=" Error al intentar cambiar de estado la solicitud"; 
          }
 
         return back()->with(['response'=>$response,'result'=>$result]);
 
+    }
+
+
+    public function addComment(Request $request){
+        //se agrega el comentario a la solicitud
+        $solicitud = solicitud::findSlug($request->slug);
+        $solicitud->observacion = $request->comment;
+        $solicitud->save();
+
+        return 'succes';
     }
     
 }

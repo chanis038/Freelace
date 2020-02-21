@@ -20,7 +20,7 @@
  
 @endsection
 
-@section('scripts') 
+@section('addscripts') 
 <style type="text/css">
   #the-canvas {
   border: 1px solid black;

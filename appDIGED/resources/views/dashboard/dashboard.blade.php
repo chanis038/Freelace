@@ -34,7 +34,12 @@ active
               	      @include("validates/tiposolicitud")
 
               </strong>
+              @if($request->estado =="EN" )
+              <a href="/viewModifyRequest/{{$request->slug}}">Modificar</a>
+              @endif
               <a href="/viewRequest/{{$request->slug}}">Ver Solicitud</a>
+              
+              
             </div>
             <span class="d-block">Fecha de Creacion: {{ $request->created_at}}</span>
             <span class="d-block">Estado:

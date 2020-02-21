@@ -24,7 +24,18 @@ class archivo extends Model
     		return $archivo;
     }
 
+    public static function deletefile($slug){
+         $archivo = archivo::where('slug', $slug)
+                            ->delete();
+        return $archivo;
+    }
 
+    public static function fileExist($idsolicitud,$nombre){
+        $exits = archivo::where('idsolicitud', $idsolicitud)
+                            ->where('nombre',$nombre)
+                            ->count();
+        return $exits;
+    }
 
     // QUERYS .. PARA OBTENER INFORMACION 
     public static function findSlugSolucitud($slug){

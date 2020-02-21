@@ -30,84 +30,104 @@ class Forms{
          $fpdf->SetFont('Arial', 'B', 10);
          $fpdf->Cell(0,5, 'DATOS PERSONALES DEL SOLICITANTE:',1,2,'C');
          $fpdf->SetFont('Arial', '', 10);
-         $fpdf-> Cell(50,6,'Primer Apellido:','LR',0,'L');
-         $fpdf-> Cell(50,6,'Segundo Apellido:','LR',0,'L');
-         $fpdf-> Cell(0,6,'Nombres:','LR',2,'L');
+         $fpdf-> Cell(50,5,'Primer Apellido:','LR',0,'L');
+         $fpdf-> Cell(50,5,'Segundo Apellido:','LR',0,'L');
+         $fpdf-> Cell(0,5,'Nombres:','LR',2,'L');
          $fpdf->Ln(1);
-         $fpdf-> Cell(50,6,utf8_decode('   '.auth()->user()->p_apellido),'LRB',0,'L');
-         $fpdf-> Cell(50,6,utf8_decode('   '.auth()->user()->s_apellido),'LRB',0,'L');
-         $fpdf-> Cell(0,6,utf8_decode('   '.auth()->user()->p_nombre.' '.'   '.auth()->user()->s_nombre ),'LRB',2,'L');
+         $fpdf-> Cell(50,5,utf8_decode('   '.auth()->user()->p_apellido),'LRB',0,'L');
+         $fpdf-> Cell(50,5,utf8_decode('   '.auth()->user()->s_apellido),'LRB',0,'L');
+         $fpdf-> Cell(0,5,utf8_decode('   '.auth()->user()->p_nombre.' '.'   '.auth()->user()->s_nombre ),'LRB',2,'L');
          $fpdf->Ln(1);
-         $fpdf->Cell(50,6,utf8_decode('Numero de carné:'),'LR',0,'L');
-         $fpdf->Cell(50,6,'Numero de registro:','LR',0,'L');
-         $fpdf->Cell(0,6,'Numero individual DPI:','LR',2,'L');
+         $fpdf->Cell(50,5,utf8_decode('Numero de carné:'),'LR',0,'L');
+         $fpdf->Cell(50,5,'Numero de registro:','LR',0,'L');
+         $fpdf->Cell(0,5,'Numero individual DPI:','LR',2,'L');
          $fpdf->Ln(1);
-         $fpdf->Cell(50,6,'   '.auth()->user()->n_carne,'LRB',0,'L');
-         $fpdf->Cell(50,6,'   '.auth()->user()->registro,'LRB',0,'L');
-         $fpdf->Cell(0,6,'   '.auth()->user()->dpi ,'LRB',2,'L');
+         $fpdf->Cell(50,5,'   '.auth()->user()->n_carne,'LRB',0,'L');
+         $fpdf->Cell(50,5,'   '.auth()->user()->registro,'LRB',0,'L');
+         $fpdf->Cell(0,5,'   '.auth()->user()->dpi ,'LRB',2,'L');
          $fpdf->Ln(1);
-         $fpdf->Cell(65,6,'Cargo que ocupa:','LR',0,'L');
-         $fpdf->Cell(0,6,utf8_decode('Unidad Administrativa o Académica:'),'LR',2,'L');
+         $fpdf->Cell(80,5,'Cargo que ocupa:','LR',0,'L');
+         $fpdf->Cell(0,5,utf8_decode('Unidad Administrativa o Académica:'),'LR',2,'L');
          $fpdf->Ln(1);
-         $fpdf-> Cell(65,6,utf8_decode('   '.auth()->user()->cargo),'LRB',0,'L');
-         $fpdf->Cell(0,6,utf8_decode('   '.auth()->user()->unidad_academica),'LRB',2,'L');
+         $fpdf-> Cell(80,5,utf8_decode(' '.auth()->user()->cargo),'LRB',0,'L');
+         $fpdf->Cell(0,5,utf8_decode(' '.auth()->user()->unidad_academica),'LRB',2,'L');
          $fpdf->Ln(1);
-         $fpdf-> Cell(65,6,utf8_decode('Dirección de residencia:'),'LR',0,'L');
-         $fpdf->Cell(50,6,utf8_decode('N.Teléfono: '.'   '.auth()->user()->n_telefono),'LR',0,'L');
-         $fpdf-> Cell(0,6,'Numero de NIT:','LR',2,'L');
+         $fpdf-> Cell(80,5,utf8_decode('Dirección de residencia:'),'LR',0,'L');
+         $fpdf->Cell(45,5,utf8_decode('N.Teléfono: '.' '.auth()->user()->n_telefono),'LR',0,'L');
+         $fpdf-> Cell(0,5,'Numero de NIT:','LR',2,'L');
          $fpdf->Ln(1);
-         $fpdf->Cell(65,6,utf8_decode('   '.auth()->user()->direccion),'LRB',0,'L');
-         $fpdf->Cell(50,6,'N.Celular: '.'   '.auth()->user()->n_celular,'LRB',0,'L');
-         $fpdf->Cell(0,6,'   '.auth()->user()->nit ,'LRB',2,'L');
+         $fpdf->Cell(80,5,utf8_decode(' '.auth()->user()->direccion),'LRB',0,'L');
+         $fpdf->Cell(45,5,'N.Celular: '.' '.auth()->user()->n_celular,'LRB',0,'L');
+         $fpdf->Cell(0,5,'  '.auth()->user()->nit ,'LRB',2,'L');
          $fpdf->Ln(1);
          $fpdf->Cell(0,5, 'Correo electronico: '.utf8_decode('   '.auth()->user()->correo),'LRB',2,'L');
 
          $fpdf->SetFont('Arial', 'B', 10);
          $fpdf->Cell(0,5, utf8_decode('DATOS DE LA AYUDA ECONÓMICA:'),1,2,'C');
          $fpdf->SetFont('Arial', '', 10);
-         $fpdf-> Cell(100,6,'Monto solicitado en letras:','LR',0,'L');
-         $fpdf-> Cell(0,6,'Q:','LR',2,'L');
+         $fpdf-> Cell(100,5,'Monto solicitado en letras:','LR',0,'L');
+         $fpdf-> Cell(0,5,'Q:','LR',2,'L');
          $fpdf->Ln(1);
-         $fpdf-> Cell(100,6,utf8_decode('   '.$dataResquest->monto_letras),'LRB',0,'L');
-         $fpdf-> Cell(0,6,'   '.$dataResquest->monto,'LRB',2,'L');
+
+         if(strlen($dataResquest->monto_letras) <=58){
+         $fpdf-> Cell(100,5,utf8_decode('   '.$dataResquest->monto_letras),'LRB',0,'L'); 
+         $fpdf-> Cell(0,5,'   '.$dataResquest->monto,'LRB',2,'L');
+         }
+         else{
+         $cadena =substr($dataResquest->monto_letras,0,60);
+         $fin= strrpos($cadena,' ',0);
+          $fpdf-> Cell(100,3,utf8_decode('  '.substr($dataResquest->monto_letras,0,$fin)),'LR',0,'L');
+         $fpdf-> Cell(0,3,'   '.$dataResquest->monto,'LR',2,'L');
          $fpdf->Ln(1);
-         $fpdf->Cell(0,6,utf8_decode('Justificación:'),'LR',2,'L');
+         $fpdf-> Cell(100,3,utf8_decode(substr($dataResquest->monto_letras,$fin+1,(strlen($dataResquest->monto_letras)-1))),'LRB',0,'L');
+         $fpdf-> Cell(0,3,'','LRB',2,'L');
+         }
+         
          $fpdf->Ln(1);
+         $fpdf->Cell(0,5,utf8_decode('Justificación:'),'LR',2,'L');
+         $fpdf->Ln(1);
+        
+         if(strlen($dataResquest->monto_letras) >158 ){
+         $fpdf->MultiCell(0,3,utf8_decode('     '.$dataResquest->justificacion),'LRB','L',false);
+         }
+         else{
          $fpdf->MultiCell(0,5,utf8_decode('     '.$dataResquest->justificacion),'LRB','L',false);
+         }
+        
          $fpdf->Ln(1);
-         $fpdf->MultiCell(0,6,utf8_decode('¿Ha solicitado financiamiento de otras unidades académicas o administrativas de la Universidad de San Carlos de Guatemala o en la DIGED?                Si: ___                          No: _X_ '),'LR','L',false);
+         $fpdf->MultiCell(0,5,utf8_decode('¿Ha solicitado financiamiento de otras unidades académicas o administrativas de la Universidad de San Carlos de Guatemala o en la DIGED?                Si: ___                          No: _X_ '),'LR','L',false);
           $fpdf->Ln(1); 
-          $fpdf->MultiCell(0,6,utf8_decode('De ser afirmativa su respuesta, llenar lo que se le solicita a continuación: '),'LRB','L',false);
+          $fpdf->MultiCell(0,5,utf8_decode('De ser afirmativa su respuesta, llenar lo que se le solicita a continuación: '),'LRB','L',false);
          $fpdf->Ln(1);
-         $fpdf-> Cell(90,6,utf8_decode('Nombre de la Unidad Administrativa o Académica:'),'LR',0,'L');
-         $fpdf-> Cell(0,6,'Monto (Q):','R',2,'L');
+         $fpdf-> Cell(90,5,utf8_decode('Nombre de la Unidad Administrativa o Académica:'),'LR',0,'L');
+         $fpdf-> Cell(0,5,'Monto (Q):','R',2,'L');
          $fpdf->Ln(1);
-         $fpdf-> Cell(90,6,'','LRB',0,'L');
-         $fpdf-> Cell(0,6,'Monto en letras:','RB',2,'L');
+         $fpdf-> Cell(90,5,'','LRB',0,'L');
+         $fpdf-> Cell(0,5,'Monto en letras:','RB',2,'L');
          $fpdf->Ln(1);
-         $fpdf-> Cell(50,6,utf8_decode('Motivo de la ayuda económica:'),'L',0,'L');
-         $fpdf-> Cell(0,6,'','BR',2,'RB');
+         $fpdf-> Cell(50,5,utf8_decode('Motivo de la ayuda económica:'),'L',0,'L');
+         $fpdf-> Cell(0,5,'','BR',2,'RB');
          $fpdf->Ln(1);
-         $fpdf-> Cell(0,6,utf8_decode('Debidamente certificado por tesorería de su Unidad Académica:'),'LRB',2,'L');
+         $fpdf-> Cell(0,5,utf8_decode('Debidamente certificado por tesorería de su Unidad Académica:'),'LRB',2,'L');
          $fpdf->Ln(1);
-         $fpdf-> Cell(0,6,'(F) Tesorero (a)','LRB',2,'R');
+         $fpdf-> Cell(0,5,'(F) Tesorero (a)','LRB',2,'R');
          $fpdf->Ln(1);
-         $fpdf-> Cell(0,6,'____________________________','LR',2,'C');
+         $fpdf-> Cell(0,5,'____________________________','LR',2,'C');
          $fpdf->Ln(1);
-         $fpdf-> Cell(0,6,'(F) Solicitante:','LRB',2,'C');
+         $fpdf-> Cell(0,5,'(F) Solicitante:','LRB',2,'C');
          $fpdf->SetFont('Arial', 'B', 10);
          $fpdf->Cell(0,5, utf8_decode('AUTORIZACION DE AYUDA ECONÓMICA:'),1,2,'C');
          $fpdf->SetFont('Arial', '', 10);
          $fpdf->Ln(1);
-         $fpdf-> Cell(0,6,'Nombre Completo:       DR. ALBERTO GARCIA GONZALEZ','LR',2,'L');
+         $fpdf-> Cell(0,5,'Nombre Completo:       DR. ALBERTO GARCIA GONZALEZ','LR',2,'L');
          $fpdf->Ln(1);
-         $fpdf-> Cell(0,6,'Reg de Personal N.:        951035 ','LR',2,'L');
+         $fpdf-> Cell(0,5,'Reg de Personal N.:        951035 ','LR',2,'L');
          $fpdf->Ln(1);
-         $fpdf-> Cell(100,6,'Cargo que Ocupa:        DIRECTOR GENERAL DE DOCENCIA','L',0,'L');
-         $fpdf-> Cell(0,6,'(f) ____________________','R',2,'L');
+         $fpdf-> Cell(100,5,'Cargo que Ocupa:        DIRECTOR GENERAL DE DOCENCIA','L',0,'L');
+         $fpdf-> Cell(0,5,'(f) ____________________','R',2,'L');
          $fpdf->Ln(1);
-         $fpdf-> Cell(100,6,'','LB',0,'L');
-         $fpdf-> Cell(0,6,'   (Autoridad competente)','RB',2,'L');
+         $fpdf-> Cell(100,5,'','LB',0,'L');
+         $fpdf-> Cell(0,5,'   (Autoridad competente)','RB',2,'L');
          $fpdf->Ln(1);
          $fpdf->Cell(25,16,utf8_decode('Observación'),'LRB',0,'C');
          $fpdf->SetFont('Arial', '',7);
@@ -257,7 +277,7 @@ class Forms{
          $fpdf= new Fpdf();
          $fpdf->AddPage();
          $fpdf->SetMargins(22,5,20);
-         $fpdf->Image( $pathOg,20,30,150,100,'jpeg');
+         $fpdf->Image( $pathOg,30,20,150,100,'jpeg');
          $fpdf->Ln(1);
          $fpdf->Output('F',$pathDs); 
 

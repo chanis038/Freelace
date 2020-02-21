@@ -30,7 +30,9 @@ class fileController extends Controller
     	return view('dashboard.createDeal',compact('data'));
     }
 
-      public function createDealFile(Request $request)
+
+    //funcion para crear el archivo de Acuerdo
+    public function createDealFile(Request $request)
     {
         try{
 
@@ -42,7 +44,7 @@ class fileController extends Controller
         $Mrequest->save();
 
         $newfile = new archivo;
-        $newfile->nombre= 'Acuerdo_'.$data[0]->id;
+        $newfile->nombre= '03_Acuerdo_SEA'.$data[0]->id;
         $newfile->tipo= ".pdf";
         $newfile->ruta= $data[0]->registro."/". $request->slug.'/';
         $newfile->slug= validaciones::newSlug('file');
@@ -84,29 +86,30 @@ class fileController extends Controller
 
      //funcion para eliminar archivos
     public function deleteFiles(Request $request){
-
-        $slug = $request->slug;
-        $name = $request->name;
-        $dirDs1 = auth()->user()->registro."/".$slug."/".$name;
-        // se recorre el arry de archivos
-
-        $exists = Storage::disk('files')->exists($dirDs1);
-                if($exists){
-                   Storage::disk('files')->delete( $dirDs1);
-                    return "success";
-                }
-                else{
-                    return 'dont found';
-                }
+        $dirDs = auth()->user()->registro."/".$request->slug."/".$request->name;
+        
+        //verificaion si existen en el disco
+        return fileController::deleFileDisk($dirDs); 
 
         }
 
 
+    //funcion para eliminar archivos de un solicitud que esta siendo modificada
+    public function deleteFilesM(Request $request){
+        $dirDs = auth()->user()->registro."/".$request->slug."/".$request->name;
+
+        //se elimina de BD
+         archivo::deletefile($request->slugFile) ;
+        
+        //se manda a llamar la funcio para eliminar el archivo del disco
+        return fileController::deleFileDisk($dirDs) ;        
+        }
+
+
      //descarga archivos.
-     public function downloadFile($slug, $todo = 0)
+    public function downloadFile($slug, $todo = 0)
      {
     	$dirDs1; //ruta para descarga de archivos
-
     		// 1 para descarga completa.
     	if ($todo == 1){
     		
@@ -127,12 +130,26 @@ class fileController extends Controller
 				else{
 					return 'dont found';
 				}
-    	 
-       
     }
 
-    public static function creaArchivoUnificado($slug,$update = false){
 
+    //funcion para elimiar archivo del disco.
+    public static function deleFileDisk($dirDisk){
+
+        $exists = Storage::disk('files')->exists($dirDisk);
+                if($exists){
+                    //se borra del disco
+                   Storage::disk('files')->delete( $dirDisk);
+                    return "success";
+                }
+                else{
+                    return 'dont found';
+                }  
+    }
+
+    ///funcion para crear el archivo pdf unificado con los archivo subidos 
+    public static function creaArchivoUnificado($slug,$update = false){
+        try{
             $archivos = archivo::findSlugSolucitud($slug);
             $dirDs1 = $archivos[0]->ruta.'SAE_'.$archivos[0]->id.'.pdf'; //ruta de descarga
             
@@ -142,19 +159,24 @@ class fileController extends Controller
             //solo se crea un nuevo archivo 
             if((!$exists) || $update){
                 $rutas=array();
+                $temps=array();
                 $x=0;
+                $tmp=0;
 
                 //cracion de array para rutas de archivos pdfs
                 foreach ($archivos as $archivo) {
                     if($archivo->tipo==".pdf"){
                         $rutas[$x]= public_path().'/Solicitudes/'.$archivo->ruta.$archivo->nombre.$archivo->tipo;
+
                     }
                     else{
 
-                        //si no es pfd se crea el nuevo archivo pdf
+                        //si no es pfd se crea el nuevo archivo pdf temporal
                        $creatPdf = new Forms();
                        $creatPdf->ImagePDF($archivo->ruta,$archivo->nombre,$archivo->tipo);
                        $rutas[$x]= public_path().'/Solicitudes/'.$archivo->ruta.$archivo->nombre.'.pdf';
+                       $temps[$tmp]= $archivo->ruta.$archivo->nombre.'.pdf';
+                       $tmp+=1;
                         
                     }
                     $x +=1; 
@@ -167,10 +189,21 @@ class fileController extends Controller
                 $merger->addIterator($rutas);
                 $newPdf = $merger->merge();
                 file_put_contents($dirDs2, $newPdf);
+
+                //se eliminan los pdf temporales
+                foreach ($temps as $temp) {
+                    archivo::deleFileDisk($temp);    
+                }
+
                 } 
             
-                
-                  return $dirDs1 ;
+                return "success";
+            }
+
+        catch(exeception $e){
+
+            return "error";
+        }
     }
 
 

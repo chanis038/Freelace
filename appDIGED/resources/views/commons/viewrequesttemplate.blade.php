@@ -17,7 +17,7 @@ vista
                     </div>
     </div>
 
-     <div class="my-3 p-3 bg-white rounded shadow-sm">
+     <div class="my-3 p-3 bg-white rounded shadow-sm" id='content'>
            @php
            $request= $data[0];
            @endphp
@@ -58,7 +58,11 @@ vista
          </div>               
         </div>
 
-        <div class="row justify-content-center" >
+     
+     
+   @yield('filescontent') 
+
+      <div class="row justify-content-center" >
           @php  
             $txt="";
               switch ($request->estado) {
@@ -72,7 +76,7 @@ vista
                     $txt="Enviar a Tesoreria";
                   break;
                   case 'ET':
-                    $txt="Listoa para recoger";
+                    $txt="Listo para recoger";
                   break;
                   case 'LT':
                     $txt="Entregado";
@@ -87,7 +91,7 @@ vista
 
             @if($request->estado== "EN" || $request->estado== "AP" || $request->estado== "AA")
                 <div class=" col-xs-2 col-ms-2 col-md-3 mb-1" >
-                <button type="button" class="btn btn-outline-primary btn-sm" name="comment" id= 'comment'> Agregar observacion
+                 <button type="button" class="btn btn-outline-primary btn-sm" name="comment" id= 'comment'> Agregar observacion
                 </button> 
                 </div>
 
@@ -166,10 +170,14 @@ vista
             @endif                         
         </div>
     </div>
-     
-   @yield('filescontent') 
+
+  
 
    <div class="my-3 p-3 bg-white rounded shadow-sm">
+    <h6 class="border-bottom border-gray pb-2 mb-0">
+                Descarga de Archivos Originales
+            </h6>
+         
         <ol class="nav ">
         @foreach($data as $file)
          <li class="nav-item ">
@@ -186,8 +194,50 @@ vista
           </li>
        </ol>
     </div>
+
     @yield('link')
 
   </main>
 
   @endsection
+
+
+   @section('scripts')
+    <script type="text/javascript">
+      (function(){
+        var  comment =  document.getElementById('comment');
+        var  div = document.getElementById('content');
+
+        if(comment != null){
+
+           comment.addEventListener('click',function(){
+           var comentario= prompt('Comentario'); 
+           
+            if(!(comentario === null || comentario ==='')) {
+
+               var url= "/addComment",
+                xdata= {
+                  comment: comentario, 
+                  _token: $('[name="_token"]').val(), 
+                  slug: '{{$request->slug}}' };
+
+             $.post(url, xdata).done(function( result ) { 
+              console.log(result);
+              if(result.indexOf("NOT OK")==-1){
+                /**/
+                }
+
+              });
+
+            }
+
+            } );
+        }
+        
+
+      })();
+
+    </script>
+
+    @yield('addscripts')
+   @endsection

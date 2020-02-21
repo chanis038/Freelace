@@ -96,7 +96,27 @@ class mailController extends Controller
                     $introduction='El cheque de su solicitud se encuentra listo en tesoreria, puede pasar a recogerlo'; 
                    $to= $owner[0]->correo; 
                 break;
-    		
+    		    case 7:
+                    $subject='Modificaion de solicitud';
+                    $introduction= "El usuario ".auth()->user()->p_nombre.",ha Modificado la Solicitud:";
+                    $revisores = User::getRevisores();
+                    if($revisores== null || $revisores==""){
+                        return "dont to..";
+                    }
+
+                    $first=true;
+                    foreach($revisores as $revisor){
+                        if($first){
+                        $to = $revisor->correo; 
+                        }
+                        else{
+                            $to = $to.','.$revisor->correo;
+                        }
+                        
+                    }
+
+                break;
+                    
     		default:
     			return "dont sent";
     			

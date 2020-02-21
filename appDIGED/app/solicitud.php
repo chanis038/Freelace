@@ -37,6 +37,19 @@ class solicitud extends Model
          return $mSolicitud;
     }
 
+     public static function getFilesRquest($slug){
+        $solicitud = solicitud::where('slug',$slug)
+                    ->with(['archivo'=>function ($query) {
+                            $query->where('nombre', 'Not like', '%FormAEUSAC%')
+                                    ->where('nombre', 'Not like', '%ACUERDO_SAE%');
+                                    //->select('nombre','tipo','slug','ruta')
+                                    //->get();
+                            }])
+                    ->get();
+                
+         return $solicitud;
+    }
+
 
     // QUERYS .. PARA OBTENER INFORMACION 
    public static function getOwnerUser($slug){
@@ -82,7 +95,6 @@ class solicitud extends Model
     		$data = solicitud::select('id','tipo','estado','slug','visto','created_at')
     		->whereIn('estado',['EN','AP','AT','AA'])
         	->orderBy('created_at', 'desc')
-        	->limit(10)
         	->get();
         	
     	}
@@ -90,20 +102,18 @@ class solicitud extends Model
     		$data = solicitud::select('id','tipo','estado','slug','visto','created_at')
     		->whereIn('estado',['AP'])
         	->orderBy('created_at', 'desc')
-        	->limit(10)
         	->get();
     	}
     	elseif(auth()->user()->perfil == 'T'){
     		$data = solicitud::select('id','tipo','estado','slug','visto','created_at')
     		->whereIn('estado',['ET','LT'])
         	->orderBy('created_at', 'desc')
-        	->limit(10)
         	->get();
     	}
         elseif(auth()->user()->perfil == 'K'){
             $data = solicitud::select('id','tipo','estado','slug','visto','created_at')
             ->orderBy('created_at', 'desc')
-            ->limit(10)
+            ->limit(20)
             ->get();
         }
 
