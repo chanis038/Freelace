@@ -286,7 +286,7 @@ class Forms{
      public static function FileDeal($request,$data){
 
          
-         $pathDs= public_path().'/Solicitudes/'.$data[0]->registro.'/'.$data[0]->slug.'/ACUERDO_'.$data[0]->id.'.pdf';
+         $pathDs= public_path().'/Solicitudes/'.$data[0]->registro.'/'.$data[0]->slug.'/03_Acuerdo_SEA'.$data[0]->id.'.pdf';
          $fpdf2= new Fpdf();
          $fpdf2->AddPage();
          $fpdf2->SetMargins(35,5,25);

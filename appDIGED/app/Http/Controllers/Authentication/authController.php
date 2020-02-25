@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Auth;
 use Illuminate\Http\Request;
 use App\User;
+use lawiet\src\NuSoapClient;
 
 class authController extends Controller
 {
@@ -56,7 +57,7 @@ class authController extends Controller
 
         try{
                //contruccion de informacion para la solicitud a web services
-                $wsdl = "https://siif.usac.edu.gt/WSAutenticacion/WSAutenticacionSIIFSoapHttpPort?WSDL";
+               $wsdl = "https://siif.usac.edu.gt/WSAutenticacion/WSAutenticacionSIIFSoapHttpPort?WSDL";
                 
                 $params = array("pxml" => "<AUTENTICACION>
                     <TIPO_USUARIO>TRABAJADOR</TIPO_USUARIO>
@@ -69,19 +70,19 @@ class authController extends Controller
 
                 try {
                     // creacion de objecto cliente para la petision 
-                  /*  $client = new nusoap_client($wsdl, 'wsdl');
+                   $client = new NuSoapClient($wsdl, 'wsdl');
                     $respuestas = $client->call($metodo, $params); //respuesta
                     
                     $err = $client->getError();
                     if ($err) {
-                        
+                         return $err;
                     }else{
                         //obtencion del xml de la respuesta
                         $xml = new SimpleXMLElement(utf8_encode($respuestas['result']));
                         $rx = $xml->CODIGO_RESP; //resulado*/
 
                         //validacion de respuesta
-                        $rx =1;
+                       //$rx =1;
                         if($rx==1){
 
                             // se valida al usuario por su registro  para saber si exite en el sistema
@@ -102,13 +103,12 @@ class authController extends Controller
                             ->withErrors(['registro' => 'Usuario y password incorrectos...'])
                             ->withInput(request([$this->username()]));
                         }
-                    //} // fin else
+                        } // fin else
                 } catch (Exception $e) {
-                    
+                    return 'error ';
                 }
             }catch(Exception $e){
-                
-            }     
+               return 'error';            }     
 
         
     }

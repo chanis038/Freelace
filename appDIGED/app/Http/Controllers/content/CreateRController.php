@@ -181,7 +181,7 @@ class CreateRController extends Controller
             //envia correo de Modidificaion 
            // mailController::sendMail($updaerequest,7);
             
-        $result = "succes";
+        $result = "succesM";
     }
 
     catch (exception $e){
