@@ -17,6 +17,9 @@ Route::get('/viewdFileDeal/{slug}', 'content\fileController@viewdFileDeal')->nam
 
 Route::get('/sendMail', 'Mail\MailController@sendMail');
 
+Route::get('/history/{registro?}/{nombre?}/{mes?}/{anio?}', 'content\historyController@viewHistory')->name('history');
+//Route::get('/history', 'content\historyController@viewHistory')->name('history');
+
 
 //petisiones post
 Route::post('login', 'Authentication\authController@loginWs')->name('login');

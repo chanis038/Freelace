@@ -43,8 +43,7 @@
                 <div class="row">
                 <div class=" col-xs-6 col-ms-6 col-md-3 mb-3">
                 <label for="monto">Monto (Q)</label>
-                <input type="text" class="form-control" name="monto" placeholder="" value="
-                {{$datarequest[0]->monto}}" maxlength="12" required>
+                <input type="text" class="form-control" name="monto" placeholder="" value="{{$datarequest[0]->monto}}" maxlength="12" required>
                 </div>
 
                <div class=" col-xs-6 col-ms-6 col-md-3 mb-3">
@@ -89,6 +88,7 @@
                      1. Fotocopia de DPI (ambos lados)<br>
                      2. Fotocopia de ultimo voucher de pago <br>
                      3. carta de invitacion al evento ó trifoliar informativo de maestria o doctorado.
+                     4. Carta de aprovacion, otorgada por el director de su unidad ademica.
                    </span>
             </div>
             </div> 
@@ -106,79 +106,15 @@
 <script src="{{asset('Plugins/dropzone/dist/min/dropzone.min.js')}}">
         </script>
 
-     <script type="text/javascript">  
-
-        Dropzone.options.mydropzone= {
-          url: "{{route('loadFiles')}}",
-          paramName: "file",           
-          method: 'post',
-          acceptedFiles: '.jpg,.pdf',
-          uploadMultiple: true,
-          addRemoveLinks: true,
-          timeout: 360000,
-          dictRemoveFile:'Eliminar Archivo' ,
-          dictInvalidFileType: 'Tipo de Archivo no permitido, solo se permiten extensiones JPG y PDF',
-          
-          init: function(){
-
-
-            var mydrop = this , sendrequest= document.getElementById('sentrequest');
-
-            var archivos =<?php echo json_encode($datarequest[0]->archivo);?>;
-             for(var i=0;i<archivos.length;i++)
-            {
-             var file ={
-                name: archivos[i].nombre+archivos[i].tipo,
-                size: 1100,
-                slug: archivos[i].slug
-              }
-              mydrop.options.addedfile.call(mydrop, file);
-             //thisDropzone.options.thumbnail.call(thisDropzone, archivos, archivos.path);
-             //mydrop.options.thumbnail.call(mydrop,  archivos[i]);
     
-              }
+     <script type="text/javascript"> 
+      var urlPostLoad= "{{route('loadFiles')}}",
+          urlPostDelete= "{{route('deleteFiles')}}",
+          loadArchivos=<?php echo json_encode($datarequest[0]->archivo);?>;  
 
-
-           this.on('sending', function(file, xhr, formData){
-            formData.append('_token', $('[name="_token"]').val());
-             formData.append('slug', $('[name="slug"]').val());
-             });
-
-            this.on('success', function(file, xhr, formData){
-                sentrequest.disabled = false; 
-             });
-       
-          },
-
-
-          removedfile: function(file) {
-              sentrequest.disabled = false;
-               
-               var url= "{{route('deleteFilesM')}}",
-                xdata= {
-                  name: file.name, 
-                  _token: $('[name="_token"]').val(), 
-                  slug: $('[name="slug"]').val(),
-                  slugFile: file.slug
-                 };
-
-             $.post(url, xdata).done(function( result ) { 
-              console.log(result);
-              if(result.indexOf("NOT OK")==-1){
-                /**/
-                }
-
-              });
-
-             var _ref;
-              if (file.previewElement) {
-                if ((_ref = file.previewElement) != null) {
-                  _ref.parentNode.removeChild(file.previewElement);
-                }
-              }
-              return this._updateMaxFilesReachedClass();
-
-          }
-        }
     </script>
-@endsection
+    
+    <script src="{{asset('Customs/js/customDropzoneModify.js')}}">
+    </script>  
+
+   @endsection

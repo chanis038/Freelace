@@ -37,7 +37,7 @@ active
                     <label for="p_nombre">
                         Primer Nombre
                     </label>
-                    <input  class="form-control" maxlength="191" name="p_nombre" placeholder="" required="" type="text" value="{{$errors->any()?old('p_nombre'):auth()->user()->p_nombre}}"  
+                    <input  class="form-control" maxlength="60" name="p_nombre" placeholder="" required="" type="text" pattern="[a-zA-ZáíóöúüñÁÉÍÓÚÜÑ]{2,60}" title="El campo solo permite letras " value="{{$errors->any()?old('p_nombre'):auth()->user()->p_nombre}}"  
                                 >
                     </input>
                 </div>
@@ -45,7 +45,7 @@ active
                     <label for="s_nombre">
                         Segundo Nombre
                     </label>
-                    <input  class="form-control" maxlength="191" name="s_nombre" placeholder=" opcional" type="text" value="{{ $errors->any()?old('s_nombre'):auth()->user()->s_nombre}}"  
+                    <input  class="form-control" maxlength="60" name="s_nombre" placeholder=" opcional" type="text" pattern="[a-zA-ZáíóöúüñÁÉÍÓÚÜÑ\s]{2,60}" title="El campo solo permite letras " value="{{ $errors->any()?old('s_nombre'):auth()->user()->s_nombre}}"  
                 >
                     </input>
                 </div>
@@ -53,7 +53,7 @@ active
                     <label for="p_apellido">
                         Primer Apellido
                     </label>
-                    <input  class="form-control" maxlength="191" name="p_apellido" placeholder="" required="" type="text" value="{{ $errors->any()?old('p_apellido'):auth()->user()->p_apellido}}"  
+                    <input  class="form-control" maxlength="60" name="p_apellido" placeholder="" required="" type="text" pattern="[a-zA-ZáíóöúüñÁÉÍÓÚÜÑ\s]{2,60}"  title="El campo solo permite letras " value="{{ $errors->any()?old('p_apellido'):auth()->user()->p_apellido}}"  
               >
                     </input>
                 </div>
@@ -61,7 +61,8 @@ active
                     <label for="s_apellido">
                         Segun Apellido
                     </label>
-                    <input  class="form-control" maxlength="191" name="s_apellido" placeholder="opcional" type="text" value="{{$errors->any()?old('s_apellido'):auth()->user()->s_apellido}}"
+                    <input  class="form-control" maxlength="60" name="s_apellido" placeholder="opcional" type="text" pattern="[a-zA-ZáíóöúüñÁÉÍÓÚÜÑ\s]{2,60}" title="El campo solo permite letras "
+                    value="{{$errors->any()?old('s_apellido'):auth()->user()->s_apellido}}"
                   >
                     </input>
                 </div>
@@ -71,7 +72,8 @@ active
                     <label for="nacionalidad">
                         Nacionalidad
                     </label>
-                    <input  class="form-control" maxlength="191" name="nacionalidad" placeholder="" required="" type="text" value="{{$errors->any()?old('nacionalidad'):auth()->user()->nacionalidad}}"
+                    <input  class="form-control" maxlength="50" name="nacionalidad" placeholder=""   type="text" pattern="[a-zA-ZáíóöúüñÁÉÍÓÚÜÑ]{2,50}"
+                    title="El campo solo permite letras " required value="{{$errors->any()?old('nacionalidad'):auth()->user()->nacionalidad}}"
                 >
                     </input>
                 </div>
@@ -79,21 +81,22 @@ active
                     <label for="dpi">
                         Numero de DPI
                     </label>
-                    <input class="form-control" name="dpi" placeholder="" required="" type="text" maxlength="13" value="{{$errors->any()?old('dpi'):auth()->user()->dpi}}" >
+                    <input class="form-control" name="dpi" placeholder="" required="" type="text" maxlength="15" pattern="[0-9]{11,15}" 
+                    title="El campo solo permite numeros sin espacios"  requiredvalue="{{$errors->any()?old('dpi'):auth()->user()->dpi}}" >
                     </input>
                 </div>
                 <div class=" col-xs-3 col-ms-4 col-md-3 mb-3">
                     <label for="municipio">
                         Lugar de extension de DPI
                     </label>
-                    <input class="form-control" maxlength="191" name="municipio" placeholder="municipio" required="" type="text" value="{{$errors->any()?old('municipio'):auth()->user()->municipio}}" >
+                    <input class="form-control" maxlength="50" name="municipio" placeholder="municipio" required="" type="text" pattern="[a-zA-ZáíóöúüñÁÉÍÓÚÜÑ\s]{2,50}" title="El campo solo permite letras " value="{{$errors->any()?old('municipio'):auth()->user()->municipio}}" >
                     </input>
                 </div>
                 <div class="col-xs-3 col-ms-4 col-md-2 mb-3">
                     <label for="edad">
                         Edad
                     </label>
-                    <input class="form-control" maxlength="3" max="150" min="18" name="edad" placeholder="" required="" type="number" value="{{$errors->any()?old('edad'):auth()->user()->edad}}" >
+                    <input class="form-control" maxlength="3" max="120" min="18" name="edad" placeholder="" required="" type="number" value="{{$errors->any()?old('edad'):auth()->user()->edad}}" >
                     </input>
                 </div>
             </div>
@@ -102,28 +105,28 @@ active
                     <label for="profesion">
                         Profesion
                     </label>
-                    <input class="form-control" maxlength="191" name="profesion" placeholder="" type="text" value="{{$errors->any()?old('profesion'):auth()->user()->profesion}}" >
+                    <input class="form-control" maxlength="60" name="profesion" placeholder="" type="text" pattern="[a-zA-ZáíóöúüñÁÉÍÓÚÜÑ\s]{2,60}" title="El campo solo permite letras " value="{{$errors->any()?old('profesion'):auth()->user()->profesion}}" >
                     </input>
                 </div>
                 <div class=" col-xs-3 col-ms-6 col-md-3 mb-3">
                     <label for="estdo_civil">
                         Estado Civil
                     </label>
-                    <input class="form-control" maxlength="191" name="estdo_civil" placeholder="" required="" type="text" value="{{$errors->any()?old('estdo_civil'):auth()->user()->estdo_civil}}" >
+                    <input class="form-control" maxlength="50" name="estdo_civil" placeholder="" required="" type="text" pattern="[a-zA-ZáíóöúüñÁÉÍÓÚÜÑ]{2,48}" title="El campo solo permite letras, sin espacios. " value="{{$errors->any()?old('estdo_civil'):auth()->user()->estdo_civil}}" >
                     </input>
                 </div>
                 <div class="col-xs-3 col-ms-6 col-md-3 mb-3">
                     <label for="direccion">
                         Direccion de Residencia
                     </label>
-                    <input class="form-control" maxlength="191" name="direccion" equired="" type="text" value="{{$errors->any()?old('direccion'):auth()->user()->direccion}}" >
+                    <input class="form-control" maxlength="80" name="direccion" equired="" type="text" value="{{$errors->any()?old('direccion'):auth()->user()->direccion}}">
                     </input>
                 </div>
                 <div class="col-xs-3 col-ms-6 col-md-3 mb-3">
                     <label for="correo">
                         Correo Electronico
                     </label>
-                    <input class="form-control" maxlength="191" name="correo" required="" type="email" value="{{$errors->any()?old('correo'):auth()->user()->correo}}" >
+                    <input class="form-control" maxlength="80" name="correo" required="" type="email" value="{{$errors->any()?old('correo'):auth()->user()->correo}}" >
                     </input>
                 </div>
             </div>
@@ -132,21 +135,21 @@ active
                     <label for="nit">
                         Numero de NIT
                     </label>
-                    <input class="form-control" maxlength="13" name="nit" placeholder="" type="text" value="{{$errors->any()?old('nit'):auth()->user()->nit}}" >
+                    <input class="form-control" maxlength="13" name="nit" placeholder="" type="text"  pattern="[0-9-]{6,13}" title="El campo solo permite numeros y guion, sin espacios" value="{{$errors->any()?old('nit'):auth()->user()->nit}}" >
                     </input>
                 </div>
                 <div class="col-xs-3 col-ms-6 col-md-3 mb-3">
                     <label for="n_telefono">
                         Numero de Telefono
                     </label>
-                    <input class="form-control" maxlength="15" name="n_telefono" placeholder="" type="text" value="{{$errors->any()?old('n_telefono'):auth()->user()->n_telefono}}">
+                    <input class="form-control" maxlength="15" name="n_telefono" placeholder="" type="tel"  pattern="[0-9]{8,15}" title="El campo solo permite numeros, sin espacios" value="{{$errors->any()?old('n_telefono'):auth()->user()->n_telefono}}">
                     </input>
                 </div>
                 <div class=" col-xs-3 col-ms-6 col-md-3 mb-3">
                     <label for="n_celular">
                         Numero de Celular
                     </label>
-                    <input class="form-control" maxlength="15" name="n_celular" placeholder="" type="text" value="{{$errors->any()?old('n_celular'):auth()->user()->n_celular}}">
+                    <input class="form-control" maxlength="15" name="n_celular" placeholder="" type="tel"  pattern="[0-9]{8,15}" title="El campo solo permite numeros, sin espacios" value="{{$errors->any()?old('n_celular'):auth()->user()->n_celular}}">
                     </input>
                 </div>
             </div>
@@ -168,7 +171,7 @@ active
                     <label for="n_carne">
                         Numero de Carne:
                     </label>
-                    <input class="form-control" maxlength="11" name="n_carne" placeholder="" required type="text" value="{{$errors->any()?old('n_carne'):auth()->user()->n_carne}}" >
+                    <input class="form-control" maxlength="11" name="n_carne" placeholder="" required type="text"  pattern="[0-9]{7,11}" title="El campo solo permite numeros, sin espacios" value="{{$errors->any()?old('n_carne'):auth()->user()->n_carne}}" >
                     </input>
 
                 </div>
@@ -176,7 +179,7 @@ active
                     <label for="titularidad">
                         Titularidad:
                     </label>
-                    <input class="form-control" maxlength="191" name="titularidad" placeholder="" required type="text" value="{{$errors->any()?old('titularidad'):auth()->user()->titularidad}}" >
+                    <input class="form-control" maxlength="50" name="titularidad" placeholder="" required type="text"  pattern="[a-zA-ZáíóöúüñÁÉÍÓÚÜÑ]{2,50}" title="El campo solo permite letras, sin espacios" value="{{$errors->any()?old('titularidad'):auth()->user()->titularidad}}" >
                     </input>
                 </div>
             </div>
@@ -185,21 +188,21 @@ active
                     <label for="unidad_academica">
                         Unidad Academica:
                     </label>
-                    <input class="form-control" maxlength="191" name="unidad_academica" placeholder="" required  type="text" value="{{$errors->any()?old('unidad_academica'):auth()->user()->unidad_academica}}">
+                    <input class="form-control" maxlength="80" name="unidad_academica" placeholder="" required   pattern="[0-9a-zA-ZáíóöúüñÁÉÍÓÚÜÑ\s]{2,80}" title="El campo solo permite letras y numeros" type="text" value="{{$errors->any()?old('unidad_academica'):auth()->user()->unidad_academica}}">
                     </input>
                 </div>
                 <div class="col-xs-6 col-ms-6 col-md-3 mb-3">
                     <label for="departamento">
                         Departamento:
                     </label>
-                    <input class="form-control" maxlength="191" name="departamento" placeholder="" required="" type="text" value="{{$errors->any()?old('departamento'):auth()->user()->departamento}}" >
+                    <input class="form-control" maxlength="60" name="departamento" placeholder="" required="" type="text"  pattern="[0-9a-zA-ZáíóöúüñÁÉÍÓÚÜÑ\s]{2,60}" title="El campo solo permite letras y numeros" value="{{$errors->any()?old('departamento'):auth()->user()->departamento}}" >
                     </input>
                 </div>
                 <div class=" col-xs-6 col-ms-6 col-md-3 mb-3">
                     <label for="cargo">
                         Cargo que Ocupa:
                     </label>
-                    <input class="form-control" maxlength="191" name="cargo" placeholder="" required="" type="text" value="{{$errors->any()?old('cargo'):auth()->user()->cargo}}" >
+                    <input class="form-control" maxlength="60" name="cargo" placeholder="" required="" type="text"  pattern="[0-9a-zA-ZáíóöúüñÁÉÍÓÚÜÑ\s]{2,60}" title="El campo solo permite letras y numeros" value="{{$errors->any()?old('cargo'):auth()->user()->cargo}}" >
                     </input>
                 </div>
             </div>
@@ -208,7 +211,7 @@ active
                     <label for="catedras">
                             Catedra(s) que Imparte:
                     </label>
-                    <input class="form-control" maxlength="191" name="catedras" placeholder=" Matematicas, Fisica, derecho penal...." required  type="text" value="{{$errors->any()?old('catedras'):auth()->user()->catedras}}">
+                    <input class="form-control" maxlength="100" name="catedras" placeholder=" Matematicas, Fisica, derecho penal...." required  pattern="[0-9a-zA-ZáíóöúüñÁÉÍÓÚÜÑ\-,\s]{2,100}" title="El campo solo permite letras, numeros, guion, coma" type="text" value="{{$errors->any()?old('catedras'):auth()->user()->catedras}}">
                     </input>
                 </div>
                

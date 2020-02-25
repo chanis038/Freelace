@@ -28,7 +28,23 @@ class solicitud extends Model
     public function archivo(){
        return  $this->hasMany('App\archivo','idsolicitud','id');
     }
+
+
+    //query Scopes
+    public function scopeEstado($query, $estado){
+            return $query->where('estado',$estado);
+    }
+
+     public function scopeAño($query, $año){
+        return $query->whereYear('created_at',$año);
+    }
+
+    public function scopeMes($query, $mes){
+        return $query->whereMonth('created_at', $mes);
+    }
+
     
+
     // devuelve el objeto modelo de la solcitud con el slug ingresado.
     public static function findSlug($slug){
         $mSolicitud = solicitud::where('slug',$slug)

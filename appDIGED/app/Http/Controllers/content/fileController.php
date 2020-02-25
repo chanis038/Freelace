@@ -113,7 +113,7 @@ class fileController extends Controller
     		// 1 para descarga completa.
     	if ($todo == 1){
     		
-			$dirDs1=fileController::creaArchivoUnificado($slug);				
+			$dirDs1=fileController::creaArchivoUnificado($slug);			
   
     	}else{
 

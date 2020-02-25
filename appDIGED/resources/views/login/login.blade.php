@@ -3,7 +3,8 @@
 @section ('title', 'Login')
 
 @section ('customs')
-<link href="Plugins/css/login.css" rel="stylesheet"></link>
+
+<link href="{{asset('Customs/css/login.css')}}" rel="stylesheet"></link>
     @endsection
 
 @section('content')

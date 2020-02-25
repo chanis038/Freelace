@@ -91,8 +91,7 @@ vista
 
             @if($request->estado== "EN" || $request->estado== "AP" || $request->estado== "AA")
                 <div class=" col-xs-2 col-ms-2 col-md-3 mb-1" >
-                 <button type="button" class="btn btn-outline-primary btn-sm" name="comment" id= 'comment'> Agregar observacion
-                </button> 
+                 @include('commons.addcomment')
                 </div>
 
                 <div class=" col-xs-2 col-ms-2 col-md-3 mb-1">
@@ -131,8 +130,7 @@ vista
 
               @if($request->estado== "AP")
                <div class=" col-xs-3 col-ms-3 col-md-3 mb-1">
-               <button type="button" class="btn btn-outline-primary btn-sm" name="comment" id= 'comment' >Agregar observacion
-               </button>
+               @include('commons.addcomment')
               </div>
                <div class=" col-xs-3 col-ms-3 col-md-3 mb-1">
                 <form method="post" action="{{route('changeState')}}">
@@ -203,41 +201,11 @@ vista
 
 
    @section('scripts')
-    <script type="text/javascript">
-      (function(){
-        var  comment =  document.getElementById('comment');
-        var  div = document.getElementById('content');
-
-        if(comment != null){
-
-           comment.addEventListener('click',function(){
-           var comentario= prompt('Comentario'); 
-           
-            if(!(comentario === null || comentario ==='')) {
-
-               var url= "/addComment",
-                xdata= {
-                  comment: comentario, 
-                  _token: $('[name="_token"]').val(), 
-                  slug: '{{$request->slug}}' };
-
-             $.post(url, xdata).done(function( result ) { 
-              console.log(result);
-              if(result.indexOf("NOT OK")==-1){
-                /**/
-                }
-
-              });
-
-            }
-
-            } );
-        }
-        
-
-      })();
-
-    </script>
+     <script type="text/javascript">
+       var slugval = "{{$request->slug}}";
+     </script>
+    <script src="{{asset('Customs/js/acctionComment.js')}}">
+        </script>
 
     @yield('addscripts')
    @endsection

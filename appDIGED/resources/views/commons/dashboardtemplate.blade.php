@@ -2,7 +2,7 @@
 
 
 @section('customs')
-<link href="{{asset('Plugins/css/dashboard.css')}}" type="text/css" rel="stylesheet">
+<link href="{{asset('Customs/css/dashboard.css')}}" type="text/css" rel="stylesheet">
 </link>
 @endsection
 
@@ -44,7 +44,7 @@
                 </li>
                 @endif
                 <li class="nav-item @yield('inhistory')">
-                    <a class="nav-link " href="\history">
+                    <a class="nav-link " href="\history\">
                         Historial
                     </a>
                 </li>
@@ -57,13 +57,17 @@
                     <li class="nav-item Active">
                         <h6 class="nav-link" >
                                    
-                            Usuario: {{auth()->user()->p_nombre}}
+                           <i class="fas fa-user-tie"></i> : {{auth()->user()->p_nombre}}
                          </h6>
                     </li>
                     <li class="nav-item">
-                        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">
-                            logout
+                        <span class="d-inline-block"  data-toggle="tooltip" title="Logout">
+                        <button class="btn  btn-outline-info my-2 my-sm-0" type="submit">
+                            <i class="fas fa-sign-out-alt"></i>
+                            
                         </button>
+                        </span>
+                        
                     </li>
                 </ul>
             </form>

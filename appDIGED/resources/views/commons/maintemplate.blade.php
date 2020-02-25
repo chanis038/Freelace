@@ -28,6 +28,8 @@
         </script>
         <script src="{{asset('Plugins/bootstrap/js/bootstrap.min.js')}}">
         </script>
+        <script src="{{asset('Plugins/fontawesome/03e2521f9b.js')}}">
+        </script>
                
         @yield('scripts')
     

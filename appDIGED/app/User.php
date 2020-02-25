@@ -83,6 +83,20 @@ protected $attributes  = [
        return  $this->hasMany('App\solicitud','registrouser','registro');
     }
 
+    //query scopes
+     //query Scopes
+    public function scopeRegistro($query, $registro){
+            return $query->where("registro",'like','%'.$registro.'%');
+    }
+     //query Scopes
+    public function scopeNombre($query, $nombre){
+        return $query->where("p_nombre",'like','%'.$nombre.'%')
+                    ->orWhere("s_nombre",'like','%'.$nombre.'%')
+                    ->orWhere("p_apellido",'like','%'.$nombre.'%')
+                    ->orWhere("s_apellido",'like','%'.$nombre.'%');
+    }
+
+    //  QUERYS PARA OBTENER INFORMACION
     public static function getRevisores(){
         return  User::where('perfil','R')
                     ->select('correo')

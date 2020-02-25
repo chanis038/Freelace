@@ -34,12 +34,19 @@ active
               	      @include("validates/tiposolicitud")
 
               </strong>
-              @if($request->estado =="EN" )
-              <a href="/viewModifyRequest/{{$request->slug}}">Modificar</a>
+              @if($request->estado =="EN" && auth()->user()->perfil=="U")
+              <a class="badge badge-info" href="/viewModifyRequest/{{$request->slug}}">
+              <span class="d-inline-block"  data-toggle="tooltip" title="Editar">
+              <i class="fas fa-edit"></i> </span></a>
+
               @endif
-              <a href="/viewRequest/{{$request->slug}}">Ver Solicitud</a>
-              
-              
+                
+                <a  class="badge badge-info" href="/viewRequest/{{$request->slug}}">
+                <span class="d-inline-block"  data-toggle="tooltip" title="Ver Solicitud">
+                <i class="fas fa-eye"></i>
+                </span>
+                </a>
+
             </div>
             <span class="d-block">Fecha de Creacion: {{ $request->created_at}}</span>
             <span class="d-block">Estado:
