@@ -197,7 +197,7 @@ class fileController extends Controller
 
                 } 
             
-                return "success";
+                return  $dirDs1;
             }
 
         catch(exeception $e){
