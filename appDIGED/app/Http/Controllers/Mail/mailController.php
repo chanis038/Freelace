@@ -23,14 +23,14 @@ class mailController extends Controller
     public static function sendMail(Solicitud $solicitud, $tipoEmial)
     {
    
-    	$subject='Estado Solicitud';
+    	$subject='Estado solicitud';
         $introduction;
     	$to ='';
         $owner= solicitud::getOwnerUser($solicitud->slug);
   
     	switch ($tipoEmial) {
     		case 1: // creacion de solicitud
-  					$subject='Nueva Solicitud';
+  					$subject='Nueva solicitud';
                     $introduction= "Sea creado una nueva solicitud";
     				$revisores = User::getRevisores();
     				if($revisores== null || $revisores==""){
@@ -51,12 +51,12 @@ class mailController extends Controller
     			break;
 
                 case 2: // Correo de aprobacion de papeleria de solcitud
-                    $introduction='La solicitud ha sido revisa por un agente de la DIGED, quien a comporbado que toda la papeleria esta correcta y pasara a ser revisada por el director, para su autorizacion'; 
+                    $introduction='La solicitud ha sido revisada por un agente de la DIGED, quien ha comprobado que toda la papelería es correcta, pasará a ser revisada por el director, para su autorización:'; 
                      $to= $owner[0]->correo;
                 break;
 
                 case 3: //  Correo de Autorizacion de solcitud                   
-                    $introduction='La solicitud ha sido Autorizada, y pasara ha tesoreria para la generacion del cheque correspondiente';
+                    $introduction='La solicitud ha sido autorizada,  pasará a tesorería DIGED para continuar con el proceso. El sistema le notificará en un lapso de 20 días hábiles para que  pueda pasar a recoger el cheque de la ayuda económica solicitada.';
                     $to= $owner[0]->correo;
                     $revisores = User::getRevisores();
                     if(!($revisores== null || $revisores=="")){
@@ -69,13 +69,13 @@ class mailController extends Controller
                 break;
 
                 case 4: //  Correo de no autorizacion de  solcitud
-                    $introduction='La solicitud no ha sido Aprobado por la DIGED'; 
+                    $introduction='La solicitud no ha sido aprobada por la DIGED, en este momento no es posible concederle esta solicitud.'; 
                     $to= $owner[0]->correo;
                 break;
 
                 case 5: //  Correo de autorizacion de  solcitud
-                    $subject='Nueva Solicitud Autorizada';
-                    $introduction='La siguiente solicitud de ayuda economíca ha sido revisa y Autorizada por la DIGED';  
+                    $subject='Nueva solicitud autorizada';
+                    $introduction='La siguiente solicitud de ayuda económica ha sido revisa y autorizada por la DIGED.';  
                     $tesoreros = User::getTesoreros();
                     if($tesoreros== null || $tesoreros==""){
                         return "dont to..";
@@ -98,7 +98,7 @@ class mailController extends Controller
                 break;
     		    case 7:
                     $subject='Modificaion de solicitud';
-                    $introduction= "El usuario ".auth()->user()->p_nombre.",ha Modificado la Solicitud:";
+                    $introduction= "El usuario ".auth()->user()->p_nombre.",ha modificado la solicitud:";
                     $revisores = User::getRevisores();
                     if($revisores== null || $revisores==""){
                         return "dont to..";

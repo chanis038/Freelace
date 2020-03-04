@@ -21,12 +21,12 @@ class authController extends Controller
     // fucncion para reortar la vista login
     public function index()
     {
-        return view('login/login');
+        return view('login.login');
     }
 
 
     //fucion temporal de login
-    public function login()
+   /* public function login()
     {
 
         $credentials = $this->validate(request(), [
@@ -43,7 +43,7 @@ class authController extends Controller
         return back()
             ->withErrors(['registro' => 'Usuario y password incorrectos...'])
             ->withInput(request([$this->username()]));
-    }
+    }*/
 
 
     // funcion de login con WS de SIIF
@@ -53,9 +53,14 @@ class authController extends Controller
             $this->username() => 'required|numeric',
             'password'        => 'required|string',
         ]);
-        
+            
+           
+        if (Auth::loginUsingId(request()->registro)) {
 
-        try{
+            return redirect()->route('dashboard');
+        }
+        else{
+            try{
                //contruccion de informacion para la solicitud a web services
                $wsdl = "https://siif.usac.edu.gt/WSAutenticacion/WSAutenticacionSIIFSoapHttpPort?WSDL";
                 
@@ -78,10 +83,10 @@ class authController extends Controller
                          return $err;
                     }else{
                         //obtencion del xml de la respuesta
-                        $xml = new SimpleXMLElement(utf8_encode($respuestas['result']));
-                        $rx = $xml->CODIGO_RESP; //resulado*/
-
-                        //validacion de respuesta
+                        $xml = new \SimpleXMLElement(utf8_encode($respuestas['result']));
+                        $rx = $xml->CODIGO_RESP; //resulado*/    
+            
+                      //validacion de respuesta
                        //$rx =1;
                         if($rx==1){
 
@@ -90,6 +95,7 @@ class authController extends Controller
                         if (!(Auth::loginUsingId(request()->registro))) {
                             $newUser = new user();
                             $newUser->registro = request()->registro;
+                            $newUser->correo= $xml->CORREO;
                             $newUser->save();
                             Auth::loginUsingId(request()->registro);
                         }
@@ -100,7 +106,7 @@ class authController extends Controller
                         }else{
                             // el Ws responde con un false en la autenticacion se regresa al login
                            return back()
-                            ->withErrors(['registro' => 'Usuario y password incorrectos...'])
+                            ->withErrors(['registro' => 'Numero de registro y clave incorrectos.'])
                             ->withInput(request([$this->username()]));
                         }
                         } // fin else
@@ -109,7 +115,9 @@ class authController extends Controller
                 }
             }catch(Exception $e){
                return 'error';            }     
+        
 
+        }
         
     }
 
@@ -119,7 +127,7 @@ class authController extends Controller
     {
         Auth::logout();
 
-        return redirect('/');
+        return redirect('/');;
     }
 
     //funcion para cambiar el nombre de campo Id

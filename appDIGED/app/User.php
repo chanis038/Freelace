@@ -43,7 +43,7 @@ class User extends Authenticatable
 
     //valores por defecto al crear un usuario 
 protected $attributes  = [
-        'p_nombre' => "Usuario",
+        'p_nombre' => null,
         's_nombre' => null,
         'p_apellido' => null,
         's_apellido'=> null,

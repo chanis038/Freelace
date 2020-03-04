@@ -52,9 +52,9 @@ active
 	<th scope="row">SAE-{{$request->id}}</th>
       <td>
       	 <div class="media-body pb-3 mb-0 small  border-gray">
-        <span class="d-block">Numero de registro: {{$request->registro}}</span>    
+        <span class="d-block">Número de registro: {{$request->registro}}</span>    
         <span class="d-block">Nombre: {{$request->p_nombre.' '.$request->p_apellido}}</span>
-        <span class="d-block">Unidad Academica: {{$request->unidad_academica}}</span>
+        <span class="d-block">Unidad académica: {{$request->unidad_academica}}</span>
         <span class="d-block">Titularidad: {{$request->titularidad}}</span>
                          
            </div>

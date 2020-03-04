@@ -15,7 +15,7 @@ class Forms{
          $fpdf= new Fpdf();
          $fpdf->AddPage();
          $fpdf->SetMargins(22,5,20);
-         $fpdf->Image('images/usac.png',10,10,-300,'png');
+         $fpdf->Image('images/Usac.png',10,10,-300,'png');
          $fpdf->Ln(20);
          $fpdf->SetFont('Arial', 'B', 12);
          $fpdf->Cell(0,5, 'SOLITUD Y AUTORIZACION DE AYUDA ECONOMICA',0,2,'C',false);
@@ -165,7 +165,7 @@ class Forms{
          $fpdf2= new Fpdf();
          $fpdf2->AddPage();
          $fpdf2->SetMargins(22,5,20);
-         $fpdf2->Image('images/usac.png',10,10,-300,'png');
+         $fpdf2->Image('images/Usac.png',10,10,-300,'png');
          $fpdf2->Ln(12);
          $fpdf2->SetFont('Arial', 'B', 12);
 

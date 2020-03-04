@@ -1,7 +1,7 @@
 <?php
 
 //peticiones get
-Route::get('/', 'Authentication\authController@index');
+Route::get('/', 'Authentication\authController@index')->name('login');
 
 Route::get('/dashboard', 'content\dashboarController@dashboard')->name('dashboard');
 
@@ -11,7 +11,7 @@ Route::get('/viewRequestM/{slug}', 'content\CreateRController@viewRequestM');
 Route::get('/viewModifyRequest/{slug}', 'content\CreateRController@viewModifyRequest')->name('viewModifyRequest');
 
 Route::get('/personalinf', 'content\PersonalInfController@personalinf')->name('personalinf');
-Route::get('/viewFile/{slug}', 'content\fileController@viewFile');
+Route::get('/viewFile/{slug}/{tipo?}', 'content\fileController@viewFile')->name('viewFile');
 Route::get('/downloadFile/{slug}/{todos?}', 'content\fileController@downloadFile');
 Route::get('/viewdFileDeal/{slug}', 'content\fileController@viewdFileDeal')->name('viewdFileDeal');
 

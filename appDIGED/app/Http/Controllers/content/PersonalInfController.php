@@ -24,11 +24,18 @@ class PersonalInfController extends Controller
     
     public function updateinf(Request $request)
     {
+        $data;
+    		if(auth()->user()->perfil=='U'){
+             $data = validaciones::validatesUser($request);   
+            }
+            else{
+            $data = validaciones::validates($request);                  
+            }
     		
-    		$data = validaciones::validatesUser($request);
-    		//return $data;
-             $response= User::where('registro',auth()->user()->registro)
+    		$response= User::where('registro',auth()->user()->registro)
                    ->update($data);
+
+            //return $data;
 
              return redirect()->route('personalinf')->with(['response'=>$response]);      
     }

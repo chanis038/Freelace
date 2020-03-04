@@ -17,7 +17,7 @@
 
 				@endphp
 				@include('validates.tiposolicitud')
-	<br><strong>Justificacion:  </strong>{{$solicitud->justificacion}}
+	<br><strong>Justificación:  </strong>{{$solicitud->justificacion}}
 
 	<br><strong>Id Solicitud: </strong>SAE- {{$solicitud->id}}
 	</p>
@@ -26,7 +26,7 @@
     <br>
 	<footer>
 		<strong>DIGED</strong><br>
-		mensaje automantico, por favor no lo responda...
+		Mensaje automático, por favor no lo responda...
 	</footer>
 </body>
 </html>

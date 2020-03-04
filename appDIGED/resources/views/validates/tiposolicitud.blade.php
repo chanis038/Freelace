@@ -1,18 +1,18 @@
 @switch($request->tipo)
         @case("PM")
-        Pago de Maestría
+        Pago de maestría
          @break
         @case ('PD')
-        Pago de Doctorado
+        Pago de doctorado
          @break
         @case ('PB')
-        Pago de Boleto Aéreo
+        Pago de boleto aéreo
          @break
         @case ('PV')
-        Pago de Viáticos
+        Pago de viáticos
          @break                         
         @default
-        Pago de Boleto Aéreo y Viáticos
+        Pago de boleto aéreo y viáticos
         @break
                         
 @endswitch

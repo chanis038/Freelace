@@ -33,11 +33,41 @@ class validaciones
            'n_celular'        =>'nullable|numeric',
             //'registro'         =>'required|string',
            'unidad_academica' =>'required|string',
-           'n_carne'          =>'required|numeric',
+           'n_carne'          =>'nullable|numeric',
            'departamento'     =>'required|string',
            'cargo'            =>'required|string',
            'titularidad'      =>'required|string',
            'catedras'         => 'required|string',
+
+        ]);
+    }
+
+     public static function validates(Request $request)
+    {
+        $cotroller = new Controller(); 
+        return  $cotroller->validate($request, [
+           'p_nombre'         =>'required|string',
+           's_nombre'         =>'nullable|string',
+           'p_apellido'       =>'nullable|string',
+           's_apellido'       =>'nullable|string',
+           'nacionalidad'     =>'nullable|string',
+           'dpi'              =>'nullable|numeric',
+           'municipio'        =>'nullable|string',
+           'edad'             =>'nullable|numeric',
+           'estdo_civil'      =>'nullable|string',
+           'profesion'        =>'nullable|string',
+           'direccion'        =>'nullable|string',
+           'correo'           =>'required|email',
+           'nit'              =>'nullable|numeric',
+           'n_telefono'       =>'nullable|numeric',
+           'n_celular'        =>'nullable|numeric',
+            //'registro'         =>'nullable|string',
+           'unidad_academica' =>'nullable|string',
+           'n_carne'          =>'nullable|numeric',
+           'departamento'     =>'nullable|string',
+           'cargo'            =>'nullable|string',
+           'titularidad'      =>'nullable|string',
+           'catedras'         => 'nullable|string',
 
         ]);
     }
@@ -107,7 +137,7 @@ class validaciones
             $resultado= $resultado.' nacionalidad,' ;
         }            
         if(auth()->user()->dpi ==""){
-            $resultado= $resultado.' dpi,' ;
+            $resultado= $resultado.' DPI,' ;
         }                    
         if(auth()->user()->municipio ==""){
             $resultado= $resultado.' municipio,' ;
@@ -116,10 +146,10 @@ class validaciones
             $resultado= $resultado.' edad,' ;
         }                   
         if(auth()->user()->estdo_civil ==""){
-            $resultado= $resultado.' estdo civil,' ;
+            $resultado= $resultado.' estado civil,' ;
         }             
         if(auth()->user()->profesion ==""){
-            $resultado= $resultado.' prefesión,' ;
+            $resultado= $resultado.' profesión,' ;
         }               
         if(auth()->user()->direccion ==""){
             $resultado= $resultado.' dirección,' ;
@@ -131,11 +161,11 @@ class validaciones
             $resultado= $resultado.'Nombre,' ;
         }*/                     
         if(auth()->user()->n_telefono =="" && auth()->user()->n_celular ==""){
-            $resultado= $resultado.' tiene que llenar el campo telefono o celular,' ;
+            $resultado= $resultado.'tiene que llenar el campo teléfono o celular,' ;
         }              
                               
         if(auth()->user()->unidad_academica ==""){
-            $resultado= $resultado.' unidad academica,' ;
+            $resultado= $resultado.' unidad académica' ;
         }        
         if(auth()->user()->n_carne ==""){
             $resultado= $resultado.' carné,' ;
@@ -150,7 +180,7 @@ class validaciones
             $resultado= $resultado.' titularidad,' ;
         }             
         if(auth()->user()->catedras ==""){
-            $resultado= $resultado.' catedras que imparte';
+            $resultado= $resultado.' cátedras que imparte';
         }  
 
         return $resultado;      

@@ -64,6 +64,6 @@ if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(naviga
 
 @section('link')
     <a class="list-group-item-warning " href="/viewRequestM/{{$data[0]->slug}}">
-                       Clic aqui,si no puede ver los archivos.!!
+                      ¡Clic aquí, si no puede ver los archivos! 
                     </a>
 @endsection

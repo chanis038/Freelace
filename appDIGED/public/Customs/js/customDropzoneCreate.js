@@ -12,6 +12,7 @@
           
           init: function(){
 
+
             var mydrop = this , sendrequest= document.getElementById('sentrequest');
            this.on('sending', function(file, xhr, formData){
             formData.append('_token', $('[name="_token"]').val());
@@ -22,8 +23,17 @@
             
             this.on('success', function(file, xhr, formData){
                 sentrequest.disabled = false; 
+                  var verButton = Dropzone.createElement('<a class="dz-remove" target="_blank" href="'+path+'viewFile/'+user+"$$"+file.name+'/1">Ver Archivo</a>');
+                  if (!file.type.match(/image.*/)) {
+                mydrop.options.thumbnail.call(mydrop,file,path+"images/pdf.jpg");
+                 file.previewElement.appendChild(verButton);
+              
+           }else
+           {
+             file.previewElement.appendChild(verButton);
+                 
+           }
              });
-       
           },
 
 

@@ -30,6 +30,17 @@ class fileController extends Controller
     	return view('dashboard.createDeal',compact('data'));
     }
 
+    public function viewFile($slug,$tipo="0"){
+        $pathToFile;
+        if ($tipo =="0"){
+            $file=archivo::findSlug($slug);
+            $pathToFile= public_path()."/Solicitudes/".$file->ruta.$file->nombre.$file->tipo;
+        }
+        else{
+            $pathToFile =public_path()."/Solicitudes/".str_replace("$$","/",$slug);
+        }
+        return response()->file($pathToFile);
+    }
 
     //funcion para crear el archivo de Acuerdo
     public function createDealFile(Request $request)
@@ -192,7 +203,7 @@ class fileController extends Controller
 
                 //se eliminan los pdf temporales
                 foreach ($temps as $temp) {
-                    archivo::deleFileDisk($temp);    
+                    fileController::deleFileDisk($temp);    
                 }
 
                 } 

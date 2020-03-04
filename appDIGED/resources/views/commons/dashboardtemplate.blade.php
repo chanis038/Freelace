@@ -7,6 +7,8 @@
 @endsection
 
 @section('content')
+
+    <dir class="lds-spinner" id="spinner"><div></div></dir>
     <!-- Content here -->
     <header>
     <nav class="navbar navbar-expand-lg navbar-light   fixed-top">
@@ -27,21 +29,21 @@
                 </li>
                 <li class="nav-item @yield('inpersonalinf')">
                     <a class="nav-link" href="\personalinf">
-                        Informacion Personal
+                         Información personal 
                     </a>
                 </li>
                 @if( auth()->user()->perfil =='U')
                 <li class="nav-item @yield('increate')">
                     <a class="nav-link" href="\createR">
-                        Crear Solicitud
+                        Crear solicitud
                     </a>
                 </li>
                 @elseif (auth()->user()->perfil =='R')
-                <li class="nav-item @yield('inconfigure')">
+                <!--li class="nav-item @yield('inconfigure')">
                     <a class="nav-link" href="\configure">
                         Configuraciones
                     </a>
-                </li>
+                </li>-->
                 @endif
                 <li class="nav-item @yield('inhistory')">
                     <a class="nav-link " href="\history\">
@@ -57,7 +59,7 @@
                     <li class="nav-item Active">
                         <h6 class="nav-link" >
                                    
-                           <i class="fas fa-user-tie"></i> : {{auth()->user()->p_nombre}}
+                           <i class="fas fa-user-tie"></i> : {{auth()->user()->p_nombre?auth()->user()->p_nombre:'Usuario'}}
                          </h6>
                     </li>
                     <li class="nav-item">

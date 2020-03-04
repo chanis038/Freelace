@@ -89,20 +89,17 @@ class CreateRController extends Controller
         
         //crea los archivos de formularios para la solicitud
         $forms = new Forms();
-        $forms->createForm1($request,$dir.'-01_FormAEUSAC.pdf');
-        $forms->createForm2($request,$dir.'-02_FormAEUSAC.pdf');
-       
+        $forms->createForm1($request,$dir.'001_FormAEUSAC.pdf');
+        CreateRController::insertFile($newrequest,"001_FormAEUSAC.pdf",$request->slug);
+        
+        $forms->createForm2($request,$dir.'002_FormAEUSAC.pdf');
+        CreateRController::insertFile($newrequest,"002_FormAEUSAC.pdf",$request->slug);       
 
          if ($handler = opendir($dir)) {
          while (false !== ($file = readdir($handler))) {
-            if(!($file== '.' || $file=='..')){
+            if(!($file== '.' || $file=='..'||$file== '001_FormAEUSAC.pdf' || $file=='002_FormAEUSAC.pdf')){
                 ////crea y inserta un nuevp archivo
-                $newfile = new archivo;
-                $newfile->nombre=substr($file,0,strrpos($file,'.'));
-                $newfile->tipo=substr($file,strrpos($file,'.')-strlen($file));
-                $newfile->ruta= auth()->user()->registro."/". $request->slug.'/';
-                $newfile->slug= validaciones::newSlug('file');
-                $newrequest->archivo()->save($newfile); 
+                    CreateRController::insertFile($newrequest,$file,$request->slug);
             } 
 
         }
@@ -123,7 +120,7 @@ class CreateRController extends Controller
         }
  
         return redirect()->route('dashboard')->with(['result'=>$result]);
-    }
+    }     
 
 
     //funcion que envia  la vista de ver solicitud
@@ -138,6 +135,11 @@ class CreateRController extends Controller
         $dirDisk= auth()->user()->registro."/". $request->slug.'/';
         //obtiene la solicitud y coloca los nuevos valore
         $updaerequest = solicitud::findSlug($request->slug);
+        if($updaerequest->estado!="EN"){
+            return redirect()->route('dashboard')->with(['result'=>'error']);
+
+        }
+
         $updaerequest->tipo = $request->tipo;
         $updaerequest->monto = $request->monto;
         $updaerequest->monto_letras = $request->monto_letras;
@@ -146,8 +148,8 @@ class CreateRController extends Controller
      
         //crea los archivos de formularios para la solicitud
         $forms = new Forms();
-        $forms->createForm1($request,$dir.'-01_FormAEUSAC.pdf');
-        $forms->createForm2($request,$dir.'-02_FormAEUSAC.pdf');
+        $forms->createForm1($request,$dir.'001_FormAEUSAC.pdf');
+        $forms->createForm2($request,$dir.'002_FormAEUSAC.pdf');
         //se elimina el archivo unificado si existe. para luego mandarlo a rehacer
         fileController::deleFileDisk($dirDisk.'SAE_'.$updaerequest->id.'.pdf');
             
@@ -161,12 +163,7 @@ class CreateRController extends Controller
                     if($exist==0){
 
                     //crea y inserta un nuevp archivo   
-                        $newfile = new archivo;
-                        $newfile->nombre= $nombre;
-                        $newfile->tipo=substr($file,strrpos($file,'.')-strlen($file));
-                        $newfile->ruta= auth()->user()->registro."/". $request->slug.'/';
-                        $newfile->slug= validaciones::newSlug('file');
-                        $updaerequest->archivo()->save($newfile); 
+                        CreateRController::insertFile($updaerequest,$file,$request->slug);
                         $changefile=true;
                     }
                
@@ -194,6 +191,16 @@ class CreateRController extends Controller
 }
 
 
+    public static function insertFile(solicitud $solicitud, $file,$slug){
+
+            $newfile = new archivo;
+            $newfile->nombre=substr($file,0,strrpos($file,'.'));
+            $newfile->tipo=substr($file,strrpos($file,'.')-strlen($file));
+            $newfile->ruta= auth()->user()->registro."/". $slug.'/';
+            $newfile->slug= validaciones::newSlug('file');
+            $solicitud->archivo()->save($newfile);
+    }   
+
 
     //funcion para el cambio de estado
     public function changeState(Request $request){
@@ -207,31 +214,38 @@ class CreateRController extends Controller
              case 'EN':
                     $change="AP";
                     $tipe=2;
-
+                    $result=" !Solicitud actualizada correctamente, se ha notificado al catedrático!";
                  break;
             case 'AP':
                      $change="AT";
                      $tipe=3;
+                     $result=" !Solicitud actualizada correctamente, se ha notificado al catedrático!";
                  break;
             case 'NA':
                      $change="NA";
                      $tipe=4;
+                     $result=" !Solicitud actualizada correctamente, se ha notificado al catedrático!";
                  break;
             case 'AT':
                     $change="AA";
                     $sendmail =false;
+                    $result=" !Solicitud actualizada correctamente!";
                  break;
             case 'AA':
                     $change="ET"; 
-                    $tipe=5;   
+                    $tipe=5; 
+                    $result=" !Solicitud actualizada correctamente, se ha notificado al catedrático y a tesorería!";  
                  break;
             case 'ET':
                     $change="LT";
                     $tipe=6;
+                    $result=" !Solicitud actualizada correctamente, se ha notificado al catedrático!"; 
                  break;
             case 'LT':
                     $change="EG";
                     $sendmail =false;
+                    $result=" !Solicitud actualizada correctamente!"; 
+
                  break;
    
              default:
@@ -250,10 +264,10 @@ class CreateRController extends Controller
             mailController::sendMail($Mrequest,$tipe);
          }
           $response=1; 
-          $result=" Solicitud Actulizada Correctametne"; 
+          ; 
          }
          catch(Exception $e) {
-             $result=" Error al intentar cambiar de estado la solicitud"; 
+             $result=" !Error al intentar cambiar de estado la solicitud!"; 
          }
 
         return back()->with(['response'=>$response,'result'=>$result]);

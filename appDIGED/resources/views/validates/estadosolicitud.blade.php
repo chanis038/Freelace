@@ -1,33 +1,33 @@
 @switch($request->estado)
 	@case ('EN')
-		Enviado a Revision
+		Enviado a revisión
 		@break
 
 	@case ('AP')
-		Revision Aprobada
+		Revisión aprobada
 		@break
 
 	@case ('AT')
-	    Autorizado
+	    Autorizada
 		@break
 
 	@case ('ET')
-	    Enviado a Tesoreria
+	    Enviado a tesorería
 		@break
 		
 	@case ('LT')
-	    Listo para recoger
+	    Lista para recoger
 		@break
 
 	@case ('NA')
-	    Listo
+			Rechazada
 		@break
 
 	@case ('AA')
-	    Autorizado
+	    Autorizada
 		@break
 	                        	
 	@default
-		Entregado
+		Entregada
 		@break
 @endswitch

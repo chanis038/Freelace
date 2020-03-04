@@ -91,7 +91,7 @@ class solicitud extends Model
 	            ->join('users', 'users.registro', '=', 'solicituds.registroUser')
 	            ->join('archivos', 'archivos.idsolicitud', '=', 'solicituds.id')
 	            ->where('solicituds.slug',$slug)
-	            ->select('users.p_nombre','users.p_apellido','users.unidad_academica', 'users.catedras','solicituds.slug','solicituds.id','solicituds.tipo','solicituds.estado','solicituds.monto','archivos.nombre', 'archivos.ruta',DB::raw('archivos.slug slugA ,archivos.tipo as tipoA, DATE(solicituds.created_at) as created_at'))
+	            ->select('users.p_nombre','users.p_apellido','users.unidad_academica', 'users.catedras','solicituds.slug','solicituds.id','solicituds.tipo','solicituds.estado','solicituds.monto','solicituds.observacion','archivos.nombre', 'archivos.ruta',DB::raw('archivos.slug slugA ,archivos.tipo as tipoA, DATE(solicituds.created_at) as created_at'))
 	            ->get();
 
 	     return $data;

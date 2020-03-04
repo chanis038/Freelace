@@ -16,11 +16,11 @@
             <div class="fadeIn first">
                 <img alt="User Icon" id="icon" src="images/diged.png"/>
                 <h3>
-                    Direcciòn General de Docencia
+                    Dirección General de Docencia
                 </h3>
                 <br>
                     <h6>
-                        Gestion de solicitudes para ayuda economica
+                        Gestión de solicitudes para ayuda económica 
                     </h6>
                 </br>
             </div>
@@ -28,7 +28,10 @@
             <form action="{{ route ('login') }} " method="Post">
                 {{csrf_field()}}
                 <div class="form-group ">
-                    <input class="fadeIn second {{ $errors->has('registro')?'border border-danger':''}}" name="registro" placeholder="Numero de registro" type="text" value="{{old('registro')}}">
+                    <input class="fadeIn second {{ $errors->has('registro')?'border border-danger':''}}" name="registro" placeholder="Número de registro" type="text" value="{{old('registro')}}"
+                    pattern="[0-9]{1,15}" 
+                    title="El campo solo permite numeros sin espacios"
+                    >
                         <!-- optencion de error registro-->
                         {!!$errors->first('registro','
                         <br>
@@ -40,18 +43,18 @@
                     </input>
                 </div>
                 <div class="form-group">
-                    <input class="fadeIn third {{ $errors->has('password')?'border border-danger':''}}" name="password" placeholder="password" type="password">
+                    <input class="fadeIn third {{ $errors->has('password')?'border border-danger':''}}" name="password" placeholder="Clave" type="password">
                         <!-- optencion de error password -->
                         {!!$errors->first('password','
                         <br>
                             <span class="help-block">
-                               <h6> :message </h6>
+                               <h6> El campo clave es obligatorio </h6>
                             </span>
                             ')!!}
                         </br>
                     </input>
                 </div>
-                <input class="fadeIn fourth" type="submit" value="Ingresar">
+                <input class="fadeIn fourth" type="submit" value="Ingresar ">
                 </input>
             </form>
         </div>

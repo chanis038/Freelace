@@ -8,11 +8,14 @@
             <meta content="width=device-width, initial-scale=1, shrink-to-fit=no" name="viewport">
                 <link href="{{asset('Plugins/bootstrap/css/bootstrap.min.css')}}" rel="stylesheet">
                 </link>
+                <link href="{{asset('Customs/css/spinner.css')}}" rel="stylesheet">
+                </link>
                  @yield('customs')
             </meta>
         </meta>
     </head>
     <body class="bg-light">
+    <dir class="loader" id="spinner">loading...</dir>
         
         @yield('content')
 
@@ -32,5 +35,13 @@
         </script>
                
         @yield('scripts')
+
+        <script type="text/javascript">
+        window.onload = function () {
+            var spinner = document.getElementById("spinner");
+            spinner.style.visibility="hidden";
+            spinner.style.opacity=0;
+        }
+        </script>
     
 </html>

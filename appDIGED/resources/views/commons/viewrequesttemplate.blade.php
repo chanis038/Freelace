@@ -12,7 +12,7 @@ vista
    <div class="d-flex align-items-center p-3 my-3 text-white-50 bg-purple rounded shadow-sm">
         <div class="lh-100">
             <h6 class="mb-0 text-white lh-100">
-              Informacion de Solicitud  SAE-{{$data[0]->id}}
+              Información de solicitud   SAE-{{$data[0]->id}}
             </h6>
                     </div>
     </div>
@@ -27,10 +27,10 @@ vista
            <strong>Creado por: </strong> {{$request->p_nombre.' '.$request->p_apellido}}     
          </div>  
          <div class=" col-xs-6 col-ms-6 col-md-4 ">
-           <strong>Unidad Académica: </strong> {{$request->unidad_academica}}     
+           <strong>Unidad académica: </strong> {{$request->unidad_academica}}     
          </div>
          <div class=" col-xs-6 col-ms-6 col-md-4 ">
-           <strong>Fecha de Solicitud: </strong> {{$request->created_at}}  
+           <strong>Fecha de solicitud: </strong> {{$request->created_at}}  
         </div> 
                    
         </div>
@@ -54,7 +54,7 @@ vista
           
         <div class="row">
        <div class=" col-xs-6 col-ms-6 col-md-8 ">
-           <strong>Catedras que imparte: </strong> {{$request->catedras}}     
+           <strong>Cátedras que imparte: </strong> {{$request->catedras}}     
          </div>               
         </div>
 
@@ -67,19 +67,19 @@ vista
             $txt="";
               switch ($request->estado) {
                 case 'EN':
-                    $txt="Aprobar Solicitud";
+                    $txt="Aprobar solicitud";
                   break;
                 case 'AP':
-                    $txt="Autorizar Solicitud";
+                    $txt="Autorizar solicitud";
                   break;
                   case 'AA':
-                    $txt="Enviar a Tesoreria";
+                    $txt="Enviar a tesorería";
                   break;
                   case 'ET':
-                    $txt="Listo para recoger";
+                    $txt="Lista para recoger";
                   break;
                   case 'LT':
-                    $txt="Entregado";
+                    $txt="Entregada";
                   break;
                 default:
                   $txt=""; 
@@ -99,7 +99,7 @@ vista
                   {{csrf_field()}}
                 <input type="hidden" name="slug" value="{{$request->slug}}">
                 <input type="hidden" name="estado" value="{{$request->estado}}">
-                <button type="submmit" class="btn btn-outline-primary btn-sm" >{{$txt}} 
+                <button type="submmit" class="btn btn-outline-success btn-sm" >{{$txt}} 
                 </button> 
                 </form>   
                 </div> 
@@ -112,7 +112,7 @@ vista
                   {{csrf_field()}}
                 <input type="hidden" name="slug" value="{{$request->slug}}">
                 <input type="hidden" name="estado" value="NA">
-                <button type="submmit" class="btn btn-outline-primary btn-sm">Rechazar Solicitud
+                <button type="submmit" class="btn btn-outline-danger btn-sm">Rechazar solicitud
                 </button> 
                 </form>   
               </div> 
@@ -121,7 +121,7 @@ vista
                          
              @if($request->estado== "AT")
                <div class=" col-xs-2 col-ms-2 col-md-3 mb-1">
-               <a class="btn btn-outline-primary btn-sm" href="/viewdFileDeal/{{$request->slug}}">Crear Acuerdo</a>
+               <a class="btn btn-outline-secondary btn-sm" href="/viewdFileDeal/{{$request->slug}}">Crear acuerdo</a>
               </div>
   
             @endif
@@ -137,7 +137,7 @@ vista
                   {{csrf_field()}}
                 <input type="hidden" name="slug" value="{{$request->slug}}">
                 <input type="hidden" name="estado" value="{{$request->estado}}">
-                <button type="submmit" class="btn btn-outline-primary btn-sm"> Autorizar Solicitud
+                <button type="submmit" class="btn btn-outline-primary btn-sm"> Autorizar solicitud
                 </button>
                 </form>   
               </div> 
@@ -146,7 +146,7 @@ vista
                   {{csrf_field()}}
                 <input type="hidden" name="slug" value="{{$request->slug}}">
                 <input type="hidden" name="estado" value="NA">
-                <button type="submmit" class="btn btn-outline-primary btn-sm"> Rechazar Solicitud
+                <button type="submmit" class="btn btn-outline-danger btn-sm"> Rechazar solicitud
                 </button>
                 </form>   
               </div>
@@ -173,7 +173,7 @@ vista
 
    <div class="my-3 p-3 bg-white rounded shadow-sm">
     <h6 class="border-bottom border-gray pb-2 mb-0">
-                Descarga de Archivos Originales
+                Descarga de archivos originales
             </h6>
          
         <ol class="nav ">
