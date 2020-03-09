@@ -66,7 +66,7 @@ active
 <script type="text/javascript">
   (function(){
     function actualizar(){location.reload(true);}
-  setInterval("actualizar()",30000);
+  setInterval(actualizar,30000);
   })();
 </script>
 @endsection

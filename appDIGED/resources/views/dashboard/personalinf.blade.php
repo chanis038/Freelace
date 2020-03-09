@@ -11,9 +11,7 @@ active
 
 @section('contentDash')
 <main class="container" id="dashmain" role="main">
-      
-    @include('validates/validatespersonalinf')
-    
+        
 
     <div class="d-flex align-items-center p-3 my-3 text-white-50 bg-purple rounded shadow-sm">
         <div class="lh-100">
@@ -27,6 +25,9 @@ active
     </div>
     <form action="{{ route ('updateinf')}}" method="POST" name="Solicitud">
         {{csrf_field()}}
+        <div>
+        <input type="hidden" name="slug" value="{{ $slug }}">
+        </div>
         <div class="my-3 p-3 bg-white rounded shadow-sm">
             <h6 class="border-bottom border-gray pb-2 mb-0">
                 Información personal
@@ -182,7 +183,7 @@ active
             <div class="row">
                 <div class="col-xs-6 col-ms-6 col-md-3 mb-3">
                     <label for="registro">
-                        Número de registro: 
+                        Número de registro
                     </label>
                     <label class="form-control" >
                     {{auth()->user()->registro}}
@@ -190,49 +191,60 @@ active
                 </div>
                 <div class=" col-xs-6 col-ms-6 col-md-3 mb-3">
                     <label for="n_carne">
-                        Número de carné:
+                        Número de carné
                     </label>
                     <input class="form-control" maxlength="11" name="n_carne" placeholder=""  type="text"  pattern="[0-9]{7,11}" title="El campo solo permite numeros, sin espacios" 
                     value="{{$errors->any()?old('n_carne'):auth()->user()->n_carne}}" >
                     </input>
+                </div>
 
-                </div>
-                 <div class=" col-xs-6 col-ms-6 col-md-3 mb-3">
-                    <label for="titularidad">
-                        Titularidad:
-                    </label>
-                    <input class="form-control" maxlength="50" name="titularidad" placeholder=""  type="text"  pattern="[a-zA-ZáéíóöúüñÁÉÍÓÚÜÑ]{2,50}" title="El campo solo permite letras, sin espacios" 
-                    {{auth()->user()->perfil=="U"?'required':''}}
-                    value="{{$errors->any()?old('titularidad'):auth()->user()->titularidad}}" >
-                    </input>
-                </div>
-            </div>
-            <div class="row">
                 <div class="col-xs-6 col-ms-6 col-md-3 mb-3">
                     <label for="unidad_academica">
-                        Unidad académica:
+                        Unidad académica
                     </label>
                     <input class="form-control" maxlength="80" name="unidad_academica" placeholder=""    pattern="[0-9a-zA-ZáéíóöúüñÁÉÍÓÚÜÑ\s]{2,80}" title="El campo solo permite letras y numeros" type="text" 
                     {{auth()->user()->perfil=="U"?'required':''}}
                     value="{{$errors->any()?old('unidad_academica'):auth()->user()->unidad_academica}}">
                     </input>
                 </div>
-                <div class="col-xs-6 col-ms-6 col-md-3 mb-3">
+
+                 <div class="col-xs-6 col-ms-6 col-md-3 mb-3">
                     <label for="departamento">
-                        Departamento:
+                        Departamento
                     </label>
                     <input class="form-control" maxlength="60" name="departamento" placeholder=""  type="text"  pattern="[0-9a-zA-ZáéíóöúüñÁÉÍÓÚÜÑ\s]{2,60}" title="El campo solo permite letras y numeros" 
                     {{auth()->user()->perfil=="U"?'required':''}}
                     value="{{$errors->any()?old('departamento'):auth()->user()->departamento}}" >
                     </input>
                 </div>
+
+            </div>
+            <div class="row">
                 <div class=" col-xs-6 col-ms-6 col-md-3 mb-3">
+                <label for="tipo_cargo">Tipo de cargo</label>
+                <select class="custom-select d-block w-100" name="tipo_cargo" id='tipo_cargo' value='PD'>
+                  <option value="CT"{{auth()->user()->tipo_cargo=="CT"?'Selected':''}}>Catedrático titular</option>
+                  <option value="CI" {{auth()->user()->tipo_cargo=="CI"?'Selected':''}}>Catedrático interino</option>
+                  <option value="AD" {{auth()->user()->tipo_cargo=="AD"?'Selected':''}}>Administrativo</option>
+                  </select>
+                </div>
+
+                 <div class=" col-xs-6 col-ms-6 col-md-3 mb-3">
                     <label for="cargo">
                         Cargo que ocupa:
                     </label>
                     <input class="form-control" maxlength="60" name="cargo" placeholder="" type="text"  pattern="[0-9a-zA-ZáéíóöúüñÁÉÍÓÚÜÑ\s]{2,60}" title="El campo solo permite letras y numeros" 
                     {{auth()->user()->perfil=="U"?'required':''}}
                     value="{{$errors->any()?old('cargo'):auth()->user()->cargo}}" >
+                    </input>
+                </div>
+
+                  <div class=" col-xs-6 col-ms-6 col-md-3 mb-3">
+                    <label for="titularidad">
+                        Titularidad
+                    </label>
+                    <input class="form-control" maxlength="50" name="titularidad" placeholder=""  type="text"  pattern="[a-zA-ZáéíóöúüñÁÉÍÓÚÜÑ]{2,50}" title="El campo solo permite letras, sin espacios" 
+                    value="{{$errors->any()?old('titularidad'):auth()->user()->titularidad}}" >
                     </input>
                 </div>
             </div>

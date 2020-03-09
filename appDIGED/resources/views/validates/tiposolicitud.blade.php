@@ -10,6 +10,9 @@
          @break
         @case ('PV')
         Pago de viáticos
+         @break 
+        @case ('PCC')
+        Pago de capacitación o curso
          @break                         
         @default
         Pago de boleto aéreo y viáticos

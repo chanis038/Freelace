@@ -103,6 +103,7 @@ class solicitud extends Model
     	if(auth()->user()->perfil == 'U'){
     	    $data = solicitud::select('id','tipo','estado','slug','visto','created_at')
     		->where('registrouser',auth()->user()->registro)
+            ->whereIn('estado',['EN','AP','AT','AA'])
         	->orderBy('created_at', 'desc')
         	->limit(5)
         	->get();

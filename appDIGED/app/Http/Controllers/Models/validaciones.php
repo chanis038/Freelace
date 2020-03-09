@@ -36,12 +36,14 @@ class validaciones
            'n_carne'          =>'nullable|numeric',
            'departamento'     =>'required|string',
            'cargo'            =>'required|string',
+           'tipo_cargo'       =>'required|string',
            'titularidad'      =>'required|string',
            'catedras'         => 'required|string',
 
         ]);
     }
 
+      //validaciones para  la  actulizacion de datos de revisor, tesorero, .....
      public static function validates(Request $request)
     {
         $cotroller = new Controller(); 
@@ -65,9 +67,10 @@ class validaciones
            'unidad_academica' =>'nullable|string',
            'n_carne'          =>'nullable|numeric',
            'departamento'     =>'nullable|string',
+           'tipo_cargo'       =>'nullable|string',
            'cargo'            =>'nullable|string',
            'titularidad'      =>'nullable|string',
-           'catedras'         => 'nullable|string',
+           'catedras'         =>'nullable|string',
 
         ]);
     }
@@ -75,17 +78,71 @@ class validaciones
     //verificacione para el envio de nueva solicitud
     public static function validatesRequest(Request $request)
     {
+       if($request->tipo == "PD" | $request->tipo == "PM"){
+          validaciones::validatesRequestDM($request);  
+        }
+        else if($request->tipo == "PV" | $request->tipo == "PB" | $request->tipo == "PBV"){
+          validaciones::validatesRequestBV($request);  
+        }
+         else if($request->tipo == "PCC" ){
+          validaciones::validatesRequestCC($request);  
+        }
+    }
+
+
+  //validacion para tipo de solicitud  Doctorado, Maestria
+    public static function validatesRequestDM(Request $request)
+    {
         $cotroller = new Controller(); 
         return  $cotroller->validate($request, [
-           'justificacion'     =>'nullable|string',
-           'monto_letras'      =>'required|string',
-           'monto'             =>'required|numeric',
-           'tipo'              =>'required|string',
-           'slug'              =>'required|string'
+          'justificacion'     =>'nullable|string',
+          'duracion'          =>'required|numeric',
+          'costo_inscripcion' =>'required|numeric',
+          'costo_parcial'     =>'required|numeric',
+          'frecuencia_pago'   =>'required|string',
+          // 'monto_letras'      =>'required|string',
+          //'monto'             =>'required|numeric',
+          'tipo'              =>'required|string',
+          'slug'              =>'required|string'
             
         ]);
     }
 
+  //validacion para tipo de solicitud  capacitacion
+  public static function validatesRequestCC(Request $request)
+    {
+        $cotroller = new Controller(); 
+        return  $cotroller->validate($request, [
+          'duracion'          =>'required|numeric',
+          'costo_inscripcion' =>'required|numeric',
+          'costo_parcial'     =>'required|numeric',
+          'tipo_duracion'     =>'required|string',
+          // 'monto_letras'      =>'required|string',
+          //'monto'             =>'required|numeric',
+          'justificacion'     =>'nullable|string',
+          'tipo'              =>'required|string',
+          'slug'              =>'required|string'
+            
+        ]);
+    }
+
+     //validacion para tipo de solicitud  viaticos y Boletos
+  public static function validatesRequestBV(Request $request)
+    {
+        $cotroller = new Controller(); 
+        return  $cotroller->validate($request, [
+          'duracion'          =>'required|numeric',
+          'tipo_duracion'     =>'required|string',
+          'fecha_viaje'       =>'required|date',
+          'lugar'             =>'required|string',
+          // 'monto_letras'      =>'required|string',
+           //'monto'             =>'required|numeric',
+          'justificacion'     =>'nullable|string',
+          'tipo'              =>'required|string',
+          'slug'              =>'required|string'
+            
+        ]);
+    }
 
         //crea slug ramdom
     public static function newSlug($table){
@@ -175,7 +232,12 @@ class validaciones
         }            
         if(auth()->user()->cargo ==""){
             $resultado= $resultado.' cargo que ocupa,';
-        }                   
+
+        }   
+         if(auth()->user()->cargo ==""){
+            $resultado= $resultado.' Tipo de cargo,';
+        } 
+
         if(auth()->user()->titularidad ==""){
             $resultado= $resultado.' titularidad,' ;
         }             

@@ -16,16 +16,16 @@ class PersonalInfController extends Controller
         $this->middleware('auth');
     }
 
- public function personalinf()
+ public function personalinf($slug='0')
     {
         
-        return view('dashboard/personalinf');
+        return view('dashboard/personalinf',compact('slug'));
     }
     
     public function updateinf(Request $request)
     {
         $data;
-    		if(auth()->user()->perfil=='U'){
+        if(auth()->user()->perfil=='U'){
              $data = validaciones::validatesUser($request);   
             }
             else{
@@ -36,8 +36,12 @@ class PersonalInfController extends Controller
                    ->update($data);
 
             //return $data;
+            if($request->slug == '0')
+             return redirect()->route('createR')->with(['response'=>$response]);  
 
-             return redirect()->route('personalinf')->with(['response'=>$response]);      
+             else
+              return redirect()->route('viewModifyRequest',['slug'=>$request->slug])->with(['response'=>$response]);
+
     }
 
 

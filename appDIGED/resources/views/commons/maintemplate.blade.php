@@ -19,9 +19,10 @@
         
         @yield('content')
 
-    <footer>
-        <hr class="mb-4" />
-
+<!-- Footer -->
+<footer class="page-footer font-small blue ">
+  <!-- Footer Text -->
+   @yield('footer')
     </footer>
     </body >
 

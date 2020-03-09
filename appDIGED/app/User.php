@@ -15,7 +15,7 @@ class User extends Authenticatable
      *
      * @var array
      */
-    protected $fillable = [
+   /* protected $fillable = [
         'p_nombre',
         's_nombre',
         'p_apellido',
@@ -40,7 +40,7 @@ class User extends Authenticatable
         'perfil',
         'catedras',
     ];
-
+*/
     //valores por defecto al crear un usuario 
 protected $attributes  = [
         'p_nombre' => null,

@@ -27,11 +27,13 @@
                         Dashboard
                     </a>
                 </li>
+                @if( auth()->user()->perfil !='U')
                 <li class="nav-item @yield('inpersonalinf')">
                     <a class="nav-link" href="\personalinf">
                          Información personal 
                     </a>
                 </li>
+                @endif
                 @if( auth()->user()->perfil =='U')
                 <li class="nav-item @yield('increate')">
                     <a class="nav-link" href="\createR">
@@ -46,7 +48,7 @@
                 </li>-->
                 @endif
                 <li class="nav-item @yield('inhistory')">
-                    <a class="nav-link " href="\history\">
+                    <a class="nav-link  " href="\history\">
                         Historial
                     </a>
                 </li>
@@ -56,7 +58,7 @@
             <form action="{{route('logout')}}" class="form-inline my-2 my-lg-0" method="POST">
                 {{csrf_field()}}
                 <ul class="navbar-nav mr-auto">
-                    <li class="nav-item Active">
+                    <li class="nav-item ">
                         <h6 class="nav-link" >
                                    
                            <i class="fas fa-user-tie"></i> : {{auth()->user()->p_nombre?auth()->user()->p_nombre:'Usuario'}}

@@ -45,6 +45,7 @@ class CreateRController extends Controller
     // funcion que envia la vista de crear solicitud
     public function viewCreateRequest()
     {
+
         $resultado  = validaciones::informantioncomplete();
         if($resultado==""){
             $slug = validaciones::newSlug('request');
@@ -67,26 +68,49 @@ class CreateRController extends Controller
     }
 
 
+    public static function setvalues(&$newrequest,Request $request){
+    if($request->tipo == "PD" | $request->tipo == "PM"){
+            $newrequest->duracion = $request->duracion;
+            $newrequest->costo_inscripcion = $request->costo_inscripcion;
+            $newrequest->frecuencia_pago = $request->frecuencia_pago;
+            $newrequest->costo_parcial = $request->costo_parcial;
+
+        }
+        else if($request->tipo == "PV" | $request->tipo == "PB" | $request->tipo == "PBV"){
+            $newrequest->duracion = $request->duracion;
+            $newrequest->tipo_duracion = $request->tipo_duracion;
+            $newrequest->lugar = $request->lugar;
+            $newrequest->fecha_viaje = $request->fecha_viaje;
+        }
+         else if($request->tipo == "PCC" ){
+            $newrequest->duracion = $request->duracion;
+            $newrequest->tipo_duracion = $request->tipo_duracion;
+            $newrequest->costo_inscripcion = $request->costo_inscripcion;
+            $newrequest->costo_parcial = $request->costo_parcial;
+
+        }      
+
+    }
+
     //funcion para guardar la solicitud creada
     public function saveRequest(Request $request)
     {
-        validaciones::validatesRequest($request);
-
+        
+        validaciones::validatesRequest($request); 
         $result;
         try{
-
         $user= User::find(auth()->user()->registro);
         $dir = public_path().'/Solicitudes/'.auth()->user()->registro."/". $request->slug.'/';
+
 
         //crea y inserta una nueva solicitud
         $newrequest = new solicitud;
         $newrequest->tipo = $request->tipo;
-        $newrequest->monto = $request->monto;
-        $newrequest->monto_letras = $request->monto_letras;
         $newrequest->justificacion = $request->justificacion;
         $newrequest->slug = $request->slug;
+        CreateRController::setvalues($newrequest,$request);
         $user->solicitud()->save($newrequest);  
-        
+
         //crea los archivos de formularios para la solicitud
         $forms = new Forms();
         $forms->createForm1($request,$dir.'001_FormAEUSAC.pdf');
@@ -126,6 +150,7 @@ class CreateRController extends Controller
     //funcion que envia  la vista de ver solicitud
     public function modifyRequest(Request $request)
     {
+      
     validaciones::validatesRequest($request);
 
     $result;
@@ -141,9 +166,8 @@ class CreateRController extends Controller
         }
 
         $updaerequest->tipo = $request->tipo;
-        $updaerequest->monto = $request->monto;
-        $updaerequest->monto_letras = $request->monto_letras;
         $updaerequest->justificacion = $request->justificacion;
+        CreateRController::setvalues($updaerequest,$request);
         $updaerequest->save();
      
         //crea los archivos de formularios para la solicitud
