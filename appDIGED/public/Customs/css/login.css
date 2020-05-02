@@ -31,13 +31,13 @@ h5 {
 
 p {
   text-align: center;
-  font-size: 12px;
+  font-size: 13px;
   font-weight: 100;
   display:inline-block;
 }
 
 a {
-  font-size: 12px;
+  font-size: 13px;
   text-decoration: none;
   font-weight: 400;
 }
@@ -70,15 +70,6 @@ a {
   box-shadow: 0 30px 60px 0 rgba(0,0,0,0.3);
   text-align: center;
 }
-
-/*#formFooter {
-  background-color: #f6f6f6;
-  border-top: 1px solid #dce8f1;
-  padding: 25px;
-  text-align: center;
-  -webkit-border-radius: 0 0 10px 10px;
-  border-radius: 0 0 10px 10px;
-}*/
 
 
 
@@ -277,11 +268,11 @@ h3,h6 {
     color:#003958;
 }
 
-/* OTHERS */
+/*OTHERS */
 
 *:focus {
     outline: none;
-} 
+}
 
 #icon {
   width:30%;

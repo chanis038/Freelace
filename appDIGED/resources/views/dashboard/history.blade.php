@@ -16,7 +16,7 @@ active
 	<div class="input-group input-group-sm mb-4 ">
 
 	@if(auth()->user()->perfil !="U")
-  	 <input type="text" class="form-control mr-sm-2 rounded"  placeholder="Registro" name="registro" pattern="[0-9]{7,11}" title="El campo solo permite numeros, sin espacios" >
+  	 <input type="text" class="form-control mr-sm-2 rounded"  placeholder="Registro" name="registro" pattern="[0-9]{6,11}" title="El campo solo permite numeros, sin espacios,con minimo 6 digitos y maximo 11" >
   	 <input type="text" class="form-control mr-sm-2 rounded"  placeholder="nombre" name="nombre" pattern="[a-zA-ZáíóöúüñÁÉÍÓÚÜÑ]{2,60}" title="El campo solo permite letras " >
   	@endif
   	 <input type="number" class="form-control mr-sm-2 rounded"  placeholder="Mes" max="12" name='mes'>

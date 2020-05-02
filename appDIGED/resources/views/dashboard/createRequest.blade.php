@@ -17,7 +17,7 @@ active
 @section('contentDash')
 
         <main role="main" class="container" id="dashmain">
-        @include('validates/validatespersonalinf')
+        @include('validates/validatesRequest')
       <div class="p-3 my-3 text-white-50 bg-purple rounded shadow-sm">
        
         <div class="lh-100">
@@ -50,6 +50,7 @@ active
                   <option value="PV">Pago de viáticos</option>
                   <option value="PBV">Pago de boleto aéreo y viaticos</option>
                 </select>
+                <a style="font-size: 13px; text-decoration: underline;" href="/media/Ayuda-becaria-economica.pdf" target="_blank" > Leer más sobre ayudas becarias y economías</a>
                 </div>
             </div>
            <div id='datos' name='datos'>
@@ -71,7 +72,9 @@ active
          <hr class="mb-4">
             <button class="btn btn-primary btn-lg btn-block" type="submit"  id= "sentrequest" name="sentrequest" disabled="true" >Enviar solicitud</button>
     </form>   
-      
+
+    @include('commons.ErrorMessage')
+      <hr class="mb-4">
     </main>
 
 

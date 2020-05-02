@@ -14,7 +14,7 @@ vista
             <h6 class="mb-0 text-white lh-100">
               Información de solicitud   SAE-{{$data[0]->id}}
             </h6>
-                    </div>
+        </div>
     </div>
 
      <div class="my-3 p-3 bg-white rounded shadow-sm" id='content'>
@@ -42,22 +42,41 @@ vista
          </div> 
          <div class=" col-xs-6 col-ms-6 col-md-4 ">
            <strong>Tipo: </strong>
-            @include("validates/tiposolicitud")
+            @include("validates.tiposolicitud")
            
          </div> 
            <div class=" col-xs-6 col-ms-6 col-md-4 ">
           <strong>Estado: </strong>
-          @include("validates/estadosolicitud") 
+          @include("validates.estadosolicitud") 
        
          </div>                   
         </div>
-          
+        @include("validates.datosTipoCargo") 
+      
+       
         <div class="row">
-       <div class=" col-xs-6 col-ms-6 col-md-8 ">
-           <strong>Cátedras que imparte: </strong> {{$request->catedras}}     
-         </div>               
-        </div>
+        <div class=" col-xs-6 col-ms-6 col-md-4 ">
+        <strong>Cargo: </strong> @switch($request->tipo_cargo)
+                                   @case ('CT')
+                                   Catedrático Titular
+                                    @break
+                                    @case ('CI')
+                                    Catedrático Interino
+                                    @break                    
+                                    @default
+                                        Administrativo
+                                        @break
+                                    @endswitch
+        </div>                   
 
+          @if(auth()->user()->tipo_cargo != 'AD') 
+          <div class=" col-xs-6 col-ms-6 col-md-8 ">
+           <strong>Cátedras que imparte: </strong> {{$request->catedras}}     
+         </div> 
+         @endif  
+
+        </div>
+        
      
      
    @yield('filescontent') 

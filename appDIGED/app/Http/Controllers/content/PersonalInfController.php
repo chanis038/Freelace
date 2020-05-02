@@ -21,26 +21,37 @@ class PersonalInfController extends Controller
         
         return view('dashboard/personalinf',compact('slug'));
     }
+
     
     public function updateinf(Request $request)
     {
         $data;
+        $result ='!Datos actualizados correctamente.!';
+        $response=0;
         if(auth()->user()->perfil=='U'){
              $data = validaciones::validatesUser($request);   
             }
             else{
             $data = validaciones::validates($request);                  
             }
-    		
-    		$response= User::where('registro',auth()->user()->registro)
+
+            try{
+                $response= User::where('registro',auth()->user()->registro)
                    ->update($data);
+
+              if($response != 1)
+              $result ='!Error, no se pudieron actualizar los datos!';
+            }
+    		    catch(Exception $e){
+              $result ='!Error, no se pudieron actualizar los datos!';
+            }  
 
             //return $data;
             if($request->slug == '0')
-             return redirect()->route('createR')->with(['response'=>$response]);  
+             return redirect()->route('createR')->with(['response'=>$response,'result'=>$result]);  
 
              else
-              return redirect()->route('viewModifyRequest',['slug'=>$request->slug])->with(['response'=>$response]);
+              return redirect()->route('viewModifyRequest',['slug'=>$request->slug])->with(['response'=>$response,'result'=>$result]);
 
     }
 

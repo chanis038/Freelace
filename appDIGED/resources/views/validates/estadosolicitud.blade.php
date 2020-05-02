@@ -8,7 +8,7 @@
 		@break
 
 	@case ('AT')
-	    Autorizada
+	    Autorizada (sin Acuerdo)
 		@break
 
 	@case ('ET')

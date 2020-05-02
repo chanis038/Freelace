@@ -4,6 +4,8 @@ namespace App;
 
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Http\Request;
 
 class User extends Authenticatable
 {
@@ -83,7 +85,7 @@ protected $attributes  = [
        return  $this->hasMany('App\solicitud','registrouser','registro');
     }
 
-    //query scopes
+   /* //query scopes
      //query Scopes
     public function scopeRegistro($query, $registro){
             return $query->where("registro",'like','%'.$registro.'%');
@@ -94,7 +96,7 @@ protected $attributes  = [
                     ->orWhere("s_nombre",'like','%'.$nombre.'%')
                     ->orWhere("p_apellido",'like','%'.$nombre.'%')
                     ->orWhere("s_apellido",'like','%'.$nombre.'%');
-    }
+    }*/
 
     //  QUERYS PARA OBTENER INFORMACION
     public static function getRevisores(){
@@ -107,5 +109,61 @@ protected $attributes  = [
         return  User::where('perfil','T')
                     ->select('correo')
                      ->get();
+    }
+
+    public static function gethistory(Request $request){
+
+        $tesorero = $request->perfil == "T";
+        try{
+        if( auth()->user()->perfil =='U'){
+            return  DB::table('users')
+              ->join('solicituds', 'users.registro', '=', 'solicituds.registroUser')
+                   ->where('users.registro',auth()->user()->registro)
+                   ->when($request->mes,function ($query,$mes) {
+               return  $query->WhereMonth('solicituds.created_at',$mes);
+                        
+            })
+            ->when($request->anio,function ($query,$anio) {
+               return  $query->WhereYear('solicituds.created_at',$anio);
+                        
+            })
+            //->where('estado',$estado)
+            ->select('users.p_nombre','users.p_apellido','users.s_nombre','users.s_apellido','users.registro','users.unidad_academica','users.titularidad','solicituds.id','solicituds.monto','solicituds.justificacion','solicituds.slug','solicituds.estado')
+            ->paginate(20);
+            //return $data
+           }
+          
+           else{
+             return DB::table('users')
+            ->join('solicituds', 'users.registro', '=', 'solicituds.registroUser')
+                 ->when($request->registro,function ($query,$registro) {
+               return  $query->Where("users.registro",'like','%'.$registro.'%');
+            })
+            ->when($request->nombre,function ($query,$nombre) {
+               return  $query ->Where("users.p_nombre",'like','%'.$nombre.'%')
+                        ->orWhere("users.s_nombre",'like','%'.$nombre.'%')
+                        ->orWhere("users.p_apellido",'like','%'.$nombre.'%')
+                        ->orWhere("users.s_apellido",'like','%'.$nombre.'%');
+            })
+            ->when($request->mes,function ($query,$mes) {
+               return  $query->WhereMonth('solicituds.created_at',$mes);
+                        
+            })
+            ->when($request->anio,function ($query,$anio) {
+               return  $query->WhereYear('solicituds.created_at',$anio);
+                        
+            })
+            ->when($tesorero,function ($query,$perfil) {
+               return  $query->whereIn('estado',['ET','LT','EG']);          
+            })
+            ->select('users.p_nombre','users.p_apellido','users.s_nombre','users.s_apellido','users.registro','users.unidad_academica','users.titularidad','solicituds.id','solicituds.monto','solicituds.justificacion','solicituds.slug','solicituds.estado','solicituds.observacion')
+            ->paginate(20);
+            //return $data
+                    # code...
+                } 
+            }
+            catch(exception $e){
+                 return [];
+            }    
     }
 }

@@ -47,7 +47,7 @@ Acuerdo
          </div>
 
   		</form>
-
+      <hr class="mb-4">
   </main>
 
   @endsection

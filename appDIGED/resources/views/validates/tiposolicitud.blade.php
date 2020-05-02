@@ -1,6 +1,8 @@
 @switch($request->tipo)
         @case("PM")
         Pago de maestría
+        @php 
+        @endphp 
          @break
         @case ('PD')
         Pago de doctorado

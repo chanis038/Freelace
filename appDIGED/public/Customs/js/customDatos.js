@@ -40,8 +40,7 @@
             duracion.min="1";
             duracion.required= true;
             duracion.id='duracion';
-            //duracion.pattern="[0-9]{2,20}([\.,][0-9]{2})?";
-            duracion.title="El campo solo numeros enteros y decimal con 1 digitos";
+            duracion.title="El campo solo numeros enteros (maximo 5 años)";
             if(fill){
             duracion.value= datafill.duracion;
             }
@@ -53,11 +52,10 @@
             inscripcion.className='form-control';
             inscripcion.type='text';
             inscripcion.maxlength=12;
-            //duracion.min="1";.
             inscripcion.required= true;
             inscripcion.id='costo_inscripcion';
             inscripcion.pattern="[0-9]{2,20}([\.,][0-9]{2})?";
-            inscripcion.title="El campo solo numeros enteros y decimal con 12 digitos";
+            inscripcion.title="El campo solo numeros enteros y decimal con 2 digitos";
              if(fill){
             inscripcion.value= datafill.costo_inscripcion;
             }
@@ -67,7 +65,6 @@
 
             frecuencia.name='frecuencia_pago';
             frecuencia.className='custom-select d-block w-80';
-            //frecuencia.type='text';
 
             pagosf.forEach(function (elemento, array) {
             var option = document.createElement("option");
@@ -86,11 +83,10 @@
             fcantidad.className='form-control';
             fcantidad.type='text';
             fcantidad.maxlength=12;
-            //fcantidad.min="1";
             fcantidad.required= true;
             fcantidad.id = 'costo_parcial';
             fcantidad.pattern="[0-9]{2,20}([\.,][0-9]{2})?";
-            fcantidad.title="El campo solo numeros enteros y decimal con 12 digitos";
+            fcantidad.title="El campo solo numeros enteros y decimal con 2 digitos";
             if(fill){
             fcantidad.value= datafill.costo_parcial;
             }
@@ -150,12 +146,10 @@
             duracion.name='duracion';
             duracion.type='number';
             duracion.maxlength=1;
-            duracion.max="5"; 
             duracion.min="1";
             duracion.required= true;
             duracion.id='duracion';
-            //duracion.pattern="[0-9]{2,20}([\.,][0-9]{2})?";
-            duracion.title="El campo solo numeros enteros y decimal con 1 digitos";
+            duracion.title="El campo solo numeros enteros ";
             if(fill){
             duracion.value= datafill.duracion;
             }
@@ -165,7 +159,7 @@
 
             frecuencia.name='tipo_duracion';
             frecuencia.className='custom-select d-block w-60';
-            //frecuencia.type='text';
+
 
             pagosf.forEach(function (elemento, array) {
             var option = document.createElement("option");
@@ -184,11 +178,10 @@
             inscripcion.className='form-control';
             inscripcion.type='text';
             inscripcion.maxlength=12;
-            //duracion.min="1";
             inscripcion.required= true;
             inscripcion.id ='costo_inscripcion';
             inscripcion.pattern="[0-9]{2,20}([\.,][0-9]{2})?";
-            inscripcion.title="El campo solo numeros enteros y decimal con 12 digitos";
+            inscripcion.title="El campo solo numeros enteros y decimal con 2 digitos";
              if(fill){
             inscripcion.value= datafill.costo_inscripcion;
             }
@@ -201,11 +194,10 @@
             fcantidad.className='form-control';
             fcantidad.type='text';
             fcantidad.maxlength=12;
-            //fcantidad.min="1";
             fcantidad.required= true;
             fcantidad.id='costo_parcial';
             fcantidad.pattern="[0-9]{2,20}([\.,][0-9]{2})?";
-            fcantidad.title="El campo solo numeros enteros y decimal con 12 digitos";
+            fcantidad.title="El campo solo numeros enteros y decimal con 2 digitos";
              if(fill){
             fcantidad.value= datafill.costo_parcial;
             }
@@ -262,12 +254,10 @@
             duracion.name='duracion';
             duracion.type='number';
             duracion.maxlength=1;
-            //duracion.max="5"; 
             duracion.min="1";
             duracion.required= true;
             lduracion.id='duracion';
-            //duracion.pattern="[0-9]{2,20}([\.,][0-9]{2})?";
-            duracion.title="El campo solo numeros enteros y decimal con 1 digitos";
+            duracion.title="El campo solo numeros enteros ";
             if(fill){
             duracion.value= datafill.duracion;
             }
@@ -278,7 +268,7 @@
 
             frecuencia.name='tipo_duracion';
             frecuencia.className='custom-select d-block w-60';
-            //frecuencia.type='text';
+
 
             pagosf.forEach(function (elemento, array) {
             var option = document.createElement("option");
@@ -290,7 +280,7 @@
             frecuencia.appendChild(option);
             });
 
-            llugar.innerHTML ='Lugar de Evento';
+            llugar.innerHTML ='Lugar de evento';
             llugar.for="lugar";    
 
             lugar.name='lugar';
@@ -299,13 +289,12 @@
             lugar.pattern="[0-9a-zA-ZáéíóöúüñÁÉÍÓÚÜÑ\\s]{2,100}";
             lugar.title="El campo solo permite letras y numeros"; 
             lugar.id='lugar';
-            //lugar.maxlength=12;
             if(fill){
             lugar.value= datafill.lugar;
             }
 
 
-            lfecha.innerHTML ='Fecha de viaje';
+            lfecha.innerHTML ='Fecha de evento';
             lfecha.for="fecha_viaje";    
 
             fecha.name='fecha_viaje';
@@ -315,10 +304,7 @@
             if(fill){
             fecha.value= datafill.fecha_viaje;
             }
-           // fecha.maxlength=12;
-            //fcantidad.min="1";
-           // fcantidad.pattern="[0-9]{2,20}([\.,][0-9]{2})?";
-            //fecha.title="El campo solo numeros enteros y decimal con 12 digitos";
+
 
             divcol.appendChild(lduracion);
             divcol.appendChild(duracion);
@@ -368,22 +354,35 @@
 
      var validateform = function (e){
 
-        var fecha_viaje =document.getElementById('fecha_viaje');
-            fechav = moment(fecha_viaje.value),
+        var fecha_viaje =document.getElementById('fecha_viaje'),
+           fechav = moment(fecha_viaje.value),
             hoy = new Date(),
-            fecha_actual = moment(hoy.getFullYear()+'-'+(hoy.getMonth()+1)+'-'+hoy.getDate());
-            dias = fechav.diff(fecha_actual,'days');
-            if(!fill && dias <= 29){
+            mes =hoy.getMonth()+1,
+            año =hoy.getFullYear(),
+            dia= hoy.getDate();
 
-            fecha_viaje.setCustomValidity("Para solicitar boleto areo tiene que ser con 30 dias de anticipacion");
-            fecha_viaje.focus();
-            e.preventDefault();
+           
+
+            if (mes <= 9){
+                mes = '0'+ mes;
+            }
+
+            if (dia <= 9){
+                dia = '0'+ dia;
+            }
+
+            console.log(año+'-'+mes+'-'+dia +' ----'+ fecha_viaje.value);
+
+           var  fecha_actual = moment(año+'-'+mes+'-'+dia);           
+           var dias = fechav.diff(fecha_actual,'days');
+   
+            if((!fill) && dias <= 29){
+             $('#politc').modal('show')
+             fecha_viaje.focus();
+             e.preventDefault();
             }
             
-            
-
-            console.log(fecha_actual +' '+ fechav+' '+dias);
-     }
+            }
 
     var selected = document.getElementById('tipo'),
         estado =5 ,

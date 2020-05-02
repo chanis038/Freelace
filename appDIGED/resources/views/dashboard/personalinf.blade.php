@@ -10,8 +10,7 @@ active
 
 
 @section('contentDash')
-<main class="container" id="dashmain" role="main">
-        
+<main class="container" id="dashmain" role="main"> 
 
     <div class="d-flex align-items-center p-3 my-3 text-white-50 bg-purple rounded shadow-sm">
         <div class="lh-100">
@@ -254,7 +253,6 @@ active
                             Cátedra(s) que imparte:
                     </label>
                     <input class="form-control" maxlength="100" name="catedras" placeholder=" Matematicas, Fisica, derecho penal...."   pattern="[0-9a-zA-ZáéíóöúüñÁÉÍÓÚÜÑ\-,\s]{2,100}" title="El campo solo permite letras, numeros, guion, coma" type="text" 
-                    {{auth()->user()->perfil=="U"?'required':''}}
                     value="{{$errors->any()?old('catedras'):auth()->user()->catedras}}">
                     </input>
                 </div>
@@ -268,5 +266,17 @@ active
             </button>
         </hr>
     </form>
+    <hr class="mb-4">
+    @include('commons.informationconditions')
 </main>
+@endsection
+
+@section('scripts')
+    <script type="text/javascript">
+        var response = "{{session('response')?session('response'):-1}}";
+        if(response == 2)
+            $('#conditions').modal('show');
+
+    </script>
+   
 @endsection

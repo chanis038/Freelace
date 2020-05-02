@@ -46,14 +46,14 @@ class CreateRController extends Controller
     public function viewCreateRequest()
     {
 
-        $resultado  = validaciones::informantioncomplete();
-        if($resultado==""){
+        $result  = validaciones::informantioncomplete();
+        if($result==""){
             $slug = validaciones::newSlug('request');
         return view('dashboard/createRequest',compact('slug'));
         }
         else{
-
-        return redirect()->route('personalinf')->with(['response'=>'2','txt'=>$resultado]); 
+         $result= 'Tiene que llenar estos campos para poder crear una solicitud:'.$result;
+        return redirect()->route('personalinf')->with(['response'=>'2','result'=>$result]); 
         }
         
                 
@@ -69,6 +69,11 @@ class CreateRController extends Controller
 
 
     public static function setvalues(&$newrequest,Request $request){
+
+        $newrequest->tipo = $request->tipo;
+        $newrequest->justificacion = $request->justificacion;
+        $newrequest->slug = $request->slug;
+
     if($request->tipo == "PD" | $request->tipo == "PM"){
             $newrequest->duracion = $request->duracion;
             $newrequest->costo_inscripcion = $request->costo_inscripcion;
@@ -97,7 +102,8 @@ class CreateRController extends Controller
     {
         
         validaciones::validatesRequest($request); 
-        $result;
+        $result = '¡Solicitud creada con éxito!';
+        $response =1;
         try{
         $user= User::find(auth()->user()->registro);
         $dir = public_path().'/Solicitudes/'.auth()->user()->registro."/". $request->slug.'/';
@@ -105,9 +111,7 @@ class CreateRController extends Controller
 
         //crea y inserta una nueva solicitud
         $newrequest = new solicitud;
-        $newrequest->tipo = $request->tipo;
-        $newrequest->justificacion = $request->justificacion;
-        $newrequest->slug = $request->slug;
+        //se llama a la funcion para colocar los valores y se guarda  
         CreateRController::setvalues($newrequest,$request);
         $user->solicitud()->save($newrequest);  
 
@@ -115,7 +119,6 @@ class CreateRController extends Controller
         $forms = new Forms();
         $forms->createForm1($request,$dir.'001_FormAEUSAC.pdf');
         CreateRController::insertFile($newrequest,"001_FormAEUSAC.pdf",$request->slug);
-        
         $forms->createForm2($request,$dir.'002_FormAEUSAC.pdf');
         CreateRController::insertFile($newrequest,"002_FormAEUSAC.pdf",$request->slug);       
 
@@ -134,39 +137,41 @@ class CreateRController extends Controller
 
         mailController::sendMail($newrequest,1);
         //       
-        $result = "succes";
+    
         }
 
         catch (exception $e){
-
-         $result = $e;
+            $response= 0;
+            $result = '!Error al tratar de crear solicitud,vuelve a intentarlo';
 
         }
  
-        return redirect()->route('dashboard')->with(['result'=>$result]);
+        return redirect()->route('dashboard')->with(['response'=>$response,'result'=>$result]);
     }     
 
 
     //funcion que envia  la vista de ver solicitud
     public function modifyRequest(Request $request)
     {
-      
+
     validaciones::validatesRequest($request);
 
-    $result;
+     $result = '¡Solicitud modificada con éxito!';
+    $response =1;
 
     try{
         $dir = public_path().'/Solicitudes/'.auth()->user()->registro."/". $request->slug.'/';
         $dirDisk= auth()->user()->registro."/". $request->slug.'/';
-        //obtiene la solicitud y coloca los nuevos valore
+       
+       //obtiene la solicitud y coloca los nuevos valore
         $updaerequest = solicitud::findSlug($request->slug);
-        if($updaerequest->estado!="EN"){
-            return redirect()->route('dashboard')->with(['result'=>'error']);
 
+        //se verfica si la solicitud no ha cambiado de estado
+        if($updaerequest->estado!="EN"){
+            return redirect()->route('dashboard')->with(['response'=>'0','result'=>'error']);
         }
 
-        $updaerequest->tipo = $request->tipo;
-        $updaerequest->justificacion = $request->justificacion;
+        //se llama a la funcion para colocar los valores y se guarda  
         CreateRController::setvalues($updaerequest,$request);
         $updaerequest->save();
      
@@ -201,17 +206,17 @@ class CreateRController extends Controller
             fileController::creaArchivoUnificado($request->slug,true);
             //envia correo de Modidificaion 
            // mailController::sendMail($updaerequest,7);
-            
-        $result = "succesM";
     }
 
     catch (exception $e){
 
-        $result = $e;
+         $result = '!Error al tratar de moficarla solicitud,vuelve a intentarlo';
+        $response =0;
 
     }
  
-        return redirect()->route('dashboard')->with(['result'=>$result]);
+      return redirect()->route('dashboard')->with(['response'=>$response,'result'=>$result]);
+
 }
 
 
@@ -288,13 +293,14 @@ class CreateRController extends Controller
             mailController::sendMail($Mrequest,$tipe);
          }
           $response=1; 
-          ; 
+          
          }
          catch(Exception $e) {
              $result=" !Error al intentar cambiar de estado la solicitud!"; 
          }
 
-        return back()->with(['response'=>$response,'result'=>$result]);
+
+          return redirect('dashboard')->with(['response'=>$response,'result'=>$result]);
 
     }
 

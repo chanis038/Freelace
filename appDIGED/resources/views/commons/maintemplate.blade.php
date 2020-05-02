@@ -15,7 +15,7 @@
         </meta>
     </head>
     <body class="bg-light">
-    <dir class="loader" id="spinner">loading...</dir>
+    <dir class="loader" id="spinner"><div>loading...</div></dir>
         
         @yield('content')
 

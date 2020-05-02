@@ -13,7 +13,7 @@ Modificar
 @section('contentDash')
 
         <main role="main" class="container" id="dashmain">
-        @include('validates/validatespersonalinf')
+        @include('validates/validatesRequest')
       <div class=" p-3 my-3 text-white-50 bg-purple rounded shadow-sm">
        
         <div class="lh-100">
@@ -51,9 +51,11 @@ Modificar
                   <option value="PV" {{$datarequest[0]->tipo=="PV"?'Selected':''}}>Pago de viáticos</option>
                   <option value="PBV" {{$datarequest[0]->tipo=="PBV"?'Selected':''}}>Pago de boleto aéreo y viaticos</option>
                 </select>
+
+                <a style="font-size: 13px; text-decoration: underline;" href="/media/Ayuda-becaria-economica.pdf" target="_blank" > Leer más sobre ayudas becarias y economías</a>
                 </div>
                 </div>
-               
+  
                 <div id='datos' name='datos'>
                 <!---contenido dinamico --->
 
@@ -73,22 +75,13 @@ Modificar
          <hr class="mb-4">
             <button class="btn btn-primary btn-lg btn-block" type="submit"  id= "sentrequest" name="sentrequest" >Guardar cambios</button>
     </form>   
-      
+      <hr class="mb-4">
     </main>
-    @include('validates.datosTipoSolicitud');
 
     @php
   $data;
   switch ($datarequest[0]->tipo) {
-    case 'PM':
-      $data = array('duracion' =>$datarequest[0]->duracion,
-            'costo_inscripcion' => $datarequest[0]->costo_inscripcion,
-            'frecuencia_pago' => $datarequest[0]->frecuencia_pago,
-            'costo_parcial' => $datarequest[0]->costo_parcial);
-
-      break;
-
-    case 'PD':
+    case 'PM': case 'PD':
       # code...
       $data = array('duracion' =>$datarequest[0]->duracion,
             'costo_inscripcion' => $datarequest[0]->costo_inscripcion,
@@ -97,23 +90,7 @@ Modificar
 
       break;
 
-    case 'PV':
-      $data = array('duracion' =>$datarequest[0]->duracion,
-            'fecha_viaje' => $datarequest[0]->fecha_viaje,
-            'tipo_duracion' => $datarequest[0]->tipo_duracion,
-            'lugar' => $datarequest[0]->lugar);
-      
-      break;
-
-    case 'PB':
-      $data = array('duracion'=>$datarequest[0]->duracion,
-            'fecha_viaje' => $datarequest[0]->fecha_viaje,
-            'tipo_duracion' => $datarequest[0]->tipo_duracion,
-            'lugar' => $datarequest[0]->lugar);
-      
-      break;
-
-    case 'PBV':
+    case 'PV': case 'PB': case 'PBV':
       # code...
       $data = array('duracion'=>$datarequest[0]->duracion,
             'fecha_viaje' => $datarequest[0]->fecha_viaje,

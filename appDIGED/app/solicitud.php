@@ -30,7 +30,7 @@ class solicitud extends Model
     }
 
 
-    //query Scopes
+    /*//query Scopes
     public function scopeEstado($query, $estado){
             return $query->where('estado',$estado);
     }
@@ -41,7 +41,7 @@ class solicitud extends Model
 
     public function scopeMes($query, $mes){
         return $query->whereMonth('created_at', $mes);
-    }
+    }*/
 
     
 
@@ -91,7 +91,7 @@ class solicitud extends Model
 	            ->join('users', 'users.registro', '=', 'solicituds.registroUser')
 	            ->join('archivos', 'archivos.idsolicitud', '=', 'solicituds.id')
 	            ->where('solicituds.slug',$slug)
-	            ->select('users.p_nombre','users.p_apellido','users.unidad_academica', 'users.catedras','solicituds.slug','solicituds.id','solicituds.tipo','solicituds.estado','solicituds.monto','solicituds.observacion','archivos.nombre', 'archivos.ruta',DB::raw('archivos.slug slugA ,archivos.tipo as tipoA, DATE(solicituds.created_at) as created_at'))
+	            ->select('users.p_nombre','users.p_apellido','users.unidad_academica', 'users.catedras','users.tipo_cargo','solicituds.slug','solicituds.id','solicituds.tipo','solicituds.estado','solicituds.monto','solicituds.observacion','solicituds.duracion','solicituds.tipo_duracion','solicituds.costo_inscripcion','solicituds.costo_parcial','solicituds.frecuencia_pago','solicituds.lugar','solicituds.fecha_viaje','archivos.nombre', 'archivos.ruta',DB::raw('archivos.slug slugA ,archivos.tipo as tipoA, DATE(solicituds.created_at) as created_at'))
 	            ->get();
 
 	     return $data;

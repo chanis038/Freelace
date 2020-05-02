@@ -2,6 +2,8 @@
 
 //peticiones get
 Route::get('/', 'Authentication\authController@index')->name('login');
+Route::get('/login', 'Authentication\authController@index');
+Route::get('/logout', 'Authentication\authController@index');
 
 Route::get('/dashboard', 'content\dashboarController@dashboard')->name('dashboard');
 
@@ -18,7 +20,7 @@ Route::get('/viewdFileDeal/{slug}', 'content\fileController@viewdFileDeal')->nam
 Route::get('/sendMail', 'Mail\MailController@sendMail');
 
 Route::get('/history/{registro?}/{nombre?}/{mes?}/{anio?}', 'content\historyController@viewHistory')->name('history');
-//Route::get('/history', 'content\historyController@viewHistory')->name('history');
+
 
 
 //petisiones post

@@ -22,8 +22,8 @@
                     Los archivos requeridos son:<br>
                      1. Fotocopia de DPI (ambos lados).<br>
                      2. Fotocopia de último voucher de pago. <br>
-                     3. Carta de invitación al evento ó trifoliar informativo de maestría o doctorado.
-                    4.  Carta de aprobación, otorgada por el director de su unidad académica.
+                     3. Carta de invitación al evento ó trifoliar informativo de maestría o doctorado.<br>
+                    4. Carta de aprobación, otorgada por el director de su unidad académica.
                    </span>
             </div>
             </div> 

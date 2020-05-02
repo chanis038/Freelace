@@ -36,7 +36,7 @@ class validaciones
            'n_carne'          =>'nullable|numeric',
            'departamento'     =>'required|string',
            'cargo'            =>'required|string',
-           'tipo_cargo'       =>'required|string',
+           'tipo_cargo'       =>'required|in:CI,CT,AD',
            'titularidad'      =>'required|string',
            'catedras'         => 'required|string',
 
@@ -67,7 +67,7 @@ class validaciones
            'unidad_academica' =>'nullable|string',
            'n_carne'          =>'nullable|numeric',
            'departamento'     =>'nullable|string',
-           'tipo_cargo'       =>'nullable|string',
+           'tipo_cargo'       =>'nullable|in:CI,CT,AD',
            'cargo'            =>'nullable|string',
            'titularidad'      =>'nullable|string',
            'catedras'         =>'nullable|string',
@@ -99,10 +99,10 @@ class validaciones
           'duracion'          =>'required|numeric',
           'costo_inscripcion' =>'required|numeric',
           'costo_parcial'     =>'required|numeric',
-          'frecuencia_pago'   =>'required|string',
+          'frecuencia_pago'   =>'required|in:mensual,bimestral,trimestral,semestral,anual',
           // 'monto_letras'      =>'required|string',
           //'monto'             =>'required|numeric',
-          'tipo'              =>'required|string',
+          'tipo'              =>'required|in:PM,PD,PB,PV,PBV,PCC',
           'slug'              =>'required|string'
             
         ]);
@@ -116,11 +116,11 @@ class validaciones
           'duracion'          =>'required|numeric',
           'costo_inscripcion' =>'required|numeric',
           'costo_parcial'     =>'required|numeric',
-          'tipo_duracion'     =>'required|string',
+          'tipo_duracion'     =>'required|in:dias,semanas,meses,años',
           // 'monto_letras'      =>'required|string',
           //'monto'             =>'required|numeric',
           'justificacion'     =>'nullable|string',
-          'tipo'              =>'required|string',
+          'tipo'              =>'required|in:PM,PD,PB,PV,PBV,PCC',
           'slug'              =>'required|string'
             
         ]);
@@ -132,13 +132,13 @@ class validaciones
         $cotroller = new Controller(); 
         return  $cotroller->validate($request, [
           'duracion'          =>'required|numeric',
-          'tipo_duracion'     =>'required|string',
+          'tipo_duracion'     =>'required|in:dias,semanas,meses,años',
           'fecha_viaje'       =>'required|date',
           'lugar'             =>'required|string',
           // 'monto_letras'      =>'required|string',
            //'monto'             =>'required|numeric',
           'justificacion'     =>'nullable|string',
-          'tipo'              =>'required|string',
+          'tipo'              =>'required|in:PM,PD,PB,PV,PBV,PCC',
           'slug'              =>'required|string'
             
         ]);
